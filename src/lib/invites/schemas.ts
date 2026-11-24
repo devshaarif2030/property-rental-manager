@@ -22,7 +22,7 @@ export const createInviteSchema = z.object({
 });
 
 export const revokeInviteSchema = z.object({
-  inviteId: z.uuid(),
+  inviteId: z.guid(),
 });
 
 export const acceptInviteSchema = z.object({

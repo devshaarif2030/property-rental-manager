@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { propertySchema, unitSchema } from "./schemas";
+import { idSchema, propertySchema, unitSchema } from "./schemas";
 
 describe("propertySchema", () => {
   it("trims and accepts a UK address", () => {
@@ -54,5 +54,13 @@ describe("unitSchema", () => {
     expect(unitSchema.safeParse({ label: "A", bedrooms: "21", bathrooms: "1", rent: "900" }).success).toBe(
       false,
     );
+  });
+});
+
+describe("idSchema", () => {
+  it("accepts generated and seeded ids, which are not RFC 4122 versioned", () => {
+    expect(idSchema.safeParse("6f1c7a52-3b8e-4d0f-9a51-2c7e8d9b0a14").success).toBe(true);
+    expect(idSchema.safeParse("10000000-0000-0000-0000-0000000000a3").success).toBe(true);
+    expect(idSchema.safeParse("not-an-id").success).toBe(false);
   });
 });

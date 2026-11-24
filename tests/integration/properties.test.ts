@@ -96,8 +96,24 @@ describe("properties and units", () => {
     }
   });
 
-  it("a tenant without a lease sees no properties", async () => {
+  it("a tenant does not see properties they have no lease in", async () => {
+    const manager = await signedInAs("manager@demo.test");
+    const { data: property } = await manager.supabase
+      .from("properties")
+      .insert({
+        org_id: SEED_ORG_ID,
+        name: `Private House ${Date.now()}`,
+        address_line: "8 Test Road",
+        city: "Leeds",
+        postcode: "LS2 2BB",
+        country: "GB",
+        manager_id: manager.userId,
+      })
+      .select("id")
+      .single();
+
     const { supabase } = await signedInAs("tenant@demo.test");
-    expect(await listProperties(supabase)).toEqual([]);
+    const visible = await listProperties(supabase);
+    expect(visible.map((item) => item.id)).not.toContain(property!.id);
   });
 });
