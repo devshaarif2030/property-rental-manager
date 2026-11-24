@@ -15,7 +15,7 @@
     "db:lint": "supabase db lint --fail-on error",
     "db:types": "supabase gen types typescript --local --schema public > src/lib/supabase/database.types.ts",
     "test": "vitest run",
-    "test:integration": "vitest run --config vitest.integration.config.ts"
+    "test:integration": "vitest run --config vitest.integration.config.mts"
   },
   "dependencies": {
     "@hookform/resolvers": "^7.0.9",
