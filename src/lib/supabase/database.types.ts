@@ -361,7 +361,10 @@ isOneToOne: false
             [_ in never]: never
           }
           Functions: {
-            [_ in never]: never
+            "accept_invite": {
+                  Args: { "p_full_name": string; "p_token_hash": string; "p_user_id": string }
+                  Returns: Database["public"]["Tables"]["profiles"]["Row"]
+                }
           }
           Enums: {
             "lease_status": "active"|"ended","payment_status": "pending"|"succeeded"|"failed"|"refunded","rent_charge_status": "due"|"paid"|"overdue","request_category": "plumbing"|"electrical"|"heating"|"appliance"|"pest"|"structural"|"other","request_priority": "emergency"|"high"|"normal"|"low","request_status": "open"|"assigned"|"in_progress"|"done"|"cancelled","unit_status": "vacant"|"occupied","user_role": "admin"|"manager"|"tenant"|"staff"

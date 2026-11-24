@@ -53,7 +53,9 @@ CI runs all of these on every pull request.
 ## Security notes
 
 - RLS on every table. `anon` has no table access.
-- Sign up is closed: accounts are created by invite only. Roles come from the `profiles` table,
+- Sign up is closed: accounts are created by invite only. Invite tokens are 32 random bytes,
+  stored only as a SHA-256 hash, single use and valid for 7 days. Managers can invite tenants
+  and staff; only admins can invite managers or admins (enforced by RLS). Roles come from the `profiles` table,
   never from the JWT, and every protected page re-checks the role on the server.
 - Clients cannot write rent charges, payments, notifications or the audit log. Payments are
   recorded only by the verified Stripe webhook using the service role.
