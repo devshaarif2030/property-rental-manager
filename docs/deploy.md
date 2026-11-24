@@ -26,7 +26,8 @@ pnpm exec supabase db push                        # applies supabase/migrations
 password is not used in production.
 
 Check it worked: in the dashboard, Table Editor should list the 13 tables, each marked as
-RLS enabled.
+RLS enabled. Storage should list a private `lease-documents` bucket, which the migrations
+create.
 
 ## 3. Supabase Auth settings
 
@@ -89,6 +90,8 @@ prefix it with `NEXT_PUBLIC_`.
 4. People → invite a manager to a second email you own, open the link in a private window,
    and accept it. You land on `/manager`.
 5. Add a property and a unit.
+6. Create a lease for a tenant, upload a sample PDF on the unit page, and open it with
+   View lease PDF.
 
 ## Keeping it alive
 

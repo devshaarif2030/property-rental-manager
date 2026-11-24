@@ -13,6 +13,7 @@ export type LeaseRow = {
   depositAmountCents: number;
   dueDay: number;
   tenantName: string;
+  hasDocument: boolean;
 };
 
 export type UnitWithLeases = {
@@ -28,7 +29,7 @@ export type UnitWithLeases = {
   pastLeases: LeaseRow[];
 };
 
-const LEASE_COLUMNS = `id, status, start_date, end_date, rent_amount_cents, deposit_amount_cents, due_day,
+const LEASE_COLUMNS = `id, status, start_date, end_date, rent_amount_cents, deposit_amount_cents, due_day, document_path,
   tenant:profiles!leases_org_id_tenant_id_fkey(full_name)`;
 
 type LeaseRecord = {
@@ -39,6 +40,7 @@ type LeaseRecord = {
   rent_amount_cents: number;
   deposit_amount_cents: number;
   due_day: number;
+  document_path: string | null;
   tenant: { full_name: string };
 };
 
@@ -52,6 +54,7 @@ function toLeaseRow(lease: LeaseRecord): LeaseRow {
     depositAmountCents: lease.deposit_amount_cents,
     dueDay: lease.due_day,
     tenantName: lease.tenant.full_name,
+    hasDocument: lease.document_path !== null,
   };
 }
 

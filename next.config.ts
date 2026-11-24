@@ -1,7 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  experimental: {
+    serverActions: {
+      // Lease PDFs are capped at 5 MB; leave room for multipart overhead.
+      bodySizeLimit: "6mb",
+    },
+  },
   cacheComponents: true,
   partialPrefetching: true,
   turbopack: {
