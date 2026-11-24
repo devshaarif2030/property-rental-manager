@@ -64,6 +64,9 @@ CI runs all of these on every pull request.
 - Clients cannot write rent charges, payments, notifications or the audit log. Payments are
   recorded only by the verified Stripe webhook using the service role.
 - The audit log is insert-only, enforced by a trigger.
+- Lease PDFs live in a private Storage bucket, under `<org_id>/<lease_id>/`. Storage policies
+  let the org's managers upload and read them and the lease's tenant read them. Files are only
+  served through 60 second signed URLs, and uploads are checked for type, size and the PDF header.
 - No secrets in the repo. `.env.example` holds placeholders only.
 
 ---

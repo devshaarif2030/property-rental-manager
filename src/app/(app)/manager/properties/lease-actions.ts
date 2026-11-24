@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { requireRole } from "@/lib/auth/session";
+import { LEASE_DOCUMENTS_BUCKET, leaseDocumentPath, validateLeaseDocument } from "@/lib/leases/documents";
 import {
   createLeaseSchema,
   endLeaseSchema,
@@ -106,4 +107,46 @@ export async function endLease(leaseId: string, input: { endDate: string }): Pro
 
   revalidatePath(PROPERTIES_PATH, "layout");
   redirect(unitPath(data[0].units.property_id, data[0].unit_id));
+}
+
+export type UploadLeaseDocumentResult = { ok: true } | FormActionResult;
+
+/**
+ * Stores a signed lease PDF and links it to the lease, replacing any earlier
+ * one. Storage policies check the org and lease folder in the object name.
+ */
+export async function uploadLeaseDocument(leaseId: string, formData: FormData): Promise<UploadLeaseDocumentResult> {
+  await requireRole(MANAGER_ROLES, PROPERTIES_PATH);
+  const id = idSchema.safeParse(leaseId);
+  if (!id.success) return NOT_FOUND;
+  const document = await validateLeaseDocument(formData.get("document"));
+  if (!document.ok) return document;
+
+  const supabase = await createClient();
+  const { data: lease, error: leaseError } = await supabase
+    .from("leases")
+    .select("id, org_id, document_path")
+    .eq("id", id.data)
+    .maybeSingle();
+  if (leaseError) return FAILED;
+  if (!lease) return NOT_FOUND;
+
+  const storage = supabase.storage.from(LEASE_DOCUMENTS_BUCKET);
+  const path = leaseDocumentPath(lease.org_id, lease.id, crypto.randomUUID());
+  const { error: uploadError } = await storage.upload(path, document.file, {
+    contentType: "application/pdf",
+    upsert: false,
+  });
+  if (uploadError) return FAILED;
+
+  const { error: updateError } = await supabase.from("leases").update({ document_path: path }).eq("id", lease.id);
+  if (updateError) {
+    await storage.remove([path]);
+    return FAILED;
+  }
+  // The old file is no longer linked. A failed cleanup leaves an orphan, not a leak.
+  if (lease.document_path) await storage.remove([lease.document_path]);
+
+  revalidatePath(PROPERTIES_PATH, "layout");
+  return { ok: true };
 }

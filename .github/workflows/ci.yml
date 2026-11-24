@@ -41,7 +41,7 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - name: Start local Supabase (migrations and seed)
-        run: pnpm exec supabase start -x studio,imgproxy,realtime,storage-api,edge-runtime,logflare,vector,supavisor
+        run: pnpm exec supabase start -x studio,imgproxy,realtime,edge-runtime,logflare,vector,supavisor
       - name: Lint database functions
         run: pnpm db:lint
       - name: Run pgTAP RLS tests

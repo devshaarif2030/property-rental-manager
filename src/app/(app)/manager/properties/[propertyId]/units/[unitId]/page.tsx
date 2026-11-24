@@ -11,6 +11,21 @@ import { idSchema } from "@/lib/properties/schemas";
 import { createClient } from "@/lib/supabase/server";
 
 import { EndLeaseForm } from "../../../end-lease-form";
+import { LeaseDocumentForm } from "../../../lease-document-form";
+
+function DocumentLink({ lease }: { lease: LeaseRow }) {
+  if (!lease.hasDocument) return null;
+  return (
+    <a
+      href={`/leases/${lease.id}/document`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-sm font-medium underline underline-offset-4"
+    >
+      View lease PDF
+    </a>
+  );
+}
 
 function leasePeriod(lease: LeaseRow): string {
   return `${formatIsoDate(lease.startDate)} to ${lease.endDate ? formatIsoDate(lease.endDate) : "rolling"}`;
@@ -70,7 +85,12 @@ export default async function UnitPage({ params }: PageProps<"/manager/propertie
                 <dt className="text-muted-foreground">Deposit</dt>
                 <dd>{formatCents(lease.depositAmountCents, currency)}</dd>
               </div>
+              <div className="sm:col-span-2">
+                <dt className="text-muted-foreground">Signed lease</dt>
+                <dd>{lease.hasDocument ? <DocumentLink lease={lease} /> : "Not uploaded yet"}</dd>
+              </div>
             </dl>
+            <LeaseDocumentForm leaseId={lease.id} hasDocument={lease.hasDocument} />
             <div className="flex flex-wrap items-start gap-2">
               <Button asChild variant="outline" size="sm">
                 <Link href={`${basePath}/leases/${lease.id}/edit`}>Edit terms</Link>
@@ -97,8 +117,9 @@ export default async function UnitPage({ params }: PageProps<"/manager/propertie
             {unit.pastLeases.map((pastLease) => (
               <li key={pastLease.id} className="flex flex-col gap-1 px-4 py-3 text-sm sm:flex-row sm:justify-between">
                 <span className="font-medium">{pastLease.tenantName}</span>
-                <span className="text-muted-foreground">
+                <span className="flex flex-wrap gap-3 text-muted-foreground">
                   {leasePeriod(pastLease)} · {formatCents(pastLease.rentAmountCents, currency)}
+                  <DocumentLink lease={pastLease} />
                 </span>
               </li>
             ))}
