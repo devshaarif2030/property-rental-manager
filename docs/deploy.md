@@ -83,7 +83,28 @@ prefix it with `NEXT_PUBLIC_`.
 3. Deploy. Copy the production URL into the Supabase Site URL and Redirect URLs from step 3
    if it differs from what you guessed.
 
-## 6. Smoke test
+## 6. Stripe (test mode only)
+
+The app refuses live keys: `STRIPE_SECRET_KEY` must start with `sk_test_` (or `rk_test_`).
+
+1. Create a free Stripe account and keep the dashboard in **test mode** (the toggle at the top).
+2. Developers → API keys → copy the **Secret key** (`sk_test_...`).
+3. Developers → Webhooks → Add endpoint:
+   - URL: `https://<your-app>.vercel.app/api/stripe/webhook`
+   - Events: `checkout.session.completed`, `checkout.session.async_payment_succeeded`,
+     `checkout.session.async_payment_failed`, `checkout.session.expired`
+4. Open the new endpoint and reveal its **Signing secret** (`whsec_...`).
+5. In Vercel, add both for Production and Preview, then redeploy:
+
+| Variable                | Value                       | Sensitive |
+| ----------------------- | --------------------------- | --------- |
+| `STRIPE_SECRET_KEY`     | Test secret key, `sk_test_` | Yes       |
+| `STRIPE_WEBHOOK_SECRET` | Signing secret, `whsec_`    | Yes       |
+
+Locally, run `stripe listen --forward-to localhost:3000/api/stripe/webhook` with the Stripe
+CLI and put the `whsec_` it prints in `.env.local`.
+
+## 7. Smoke test
 
 1. Open the live URL. The portfolio banner shows on every page.
 2. Open `/manager` signed out. You are sent to sign in.
@@ -93,6 +114,9 @@ prefix it with `NEXT_PUBLIC_`.
 5. Add a property and a unit.
 6. Create a lease for a tenant, upload a sample PDF on the unit page, and open it with
    View lease PDF.
+7. The next night a rent charge appears (or run `select private.generate_rent_charges();` in
+   the SQL Editor). Sign in as the tenant, press Pay now, and pay with the test card
+   `4242 4242 4242 4242`. You land on the receipt and the charge shows as paid.
 
 ## Keeping it alive
 
@@ -101,5 +125,5 @@ weekly, or restore the project from the dashboard before sharing the link.
 
 ## Later milestones
 
-Stripe (`STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`), Gemini (`GEMINI_API_KEY`) and Resend
-(`RESEND_API_KEY`) are added to Vercel the same way when those features land.
+Gemini (`GEMINI_API_KEY`) and Resend (`RESEND_API_KEY`) are added to Vercel the same way
+when those features land.
