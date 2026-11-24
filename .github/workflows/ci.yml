@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   app:
-    name: Lint, typecheck, build
+    name: Lint, typecheck, unit tests, build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -26,10 +26,11 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm lint
       - run: pnpm typecheck
+      - run: pnpm test
       - run: pnpm build
 
   database:
-    name: Migrations and RLS tests
+    name: Migrations, RLS tests, auth integration
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -39,9 +40,19 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - name: Start local Postgres and apply migrations
-        run: pnpm exec supabase db start
+      - name: Start local Supabase (migrations and seed)
+        run: pnpm exec supabase start -x studio,imgproxy,realtime,storage-api,edge-runtime,logflare,vector,supavisor
       - name: Lint database functions
         run: pnpm db:lint
       - name: Run pgTAP RLS tests
         run: pnpm db:test
+      - name: Check generated database types are current
+        run: |
+          pnpm db:types
+          git diff --exit-code -- src/lib/supabase/database.types.ts
+      - name: Run auth integration tests
+        run: |
+          status=$(pnpm exec supabase status -o json)
+          export NEXT_PUBLIC_SUPABASE_URL=$(echo "$status" | jq -r '.API_URL')
+          export NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=$(echo "$status" | jq -r '.PUBLISHABLE_KEY // .ANON_KEY')
+          pnpm test:integration
