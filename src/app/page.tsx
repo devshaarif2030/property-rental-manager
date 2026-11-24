@@ -1,4 +1,7 @@
+import Link from "next/link";
+
 import { Button } from "@/components/ui/button";
+import { SIGN_IN_PATH } from "@/lib/auth/paths";
 
 const REPOSITORY_URL = "https://github.com/devshaarif2030/property-rental-manager";
 
@@ -10,7 +13,10 @@ export default function Home() {
         Rent, leases and repairs for a property management company, in one place. Built for a
         fictional client as a portfolio project.
       </p>
-      <div>
+      <div className="flex flex-wrap gap-3">
+        <Button asChild>
+          <Link href={SIGN_IN_PATH}>Sign in</Link>
+        </Button>
         <Button asChild variant="outline">
           <a href={REPOSITORY_URL}>View the source on GitHub</a>
         </Button>
