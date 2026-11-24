@@ -1,9 +1,14 @@
+import { fileURLToPath } from "node:url";
+
 import { defineConfig } from "vitest/config";
 
-import baseConfig from "./vitest.config.mts";
-
-// Same resolver setup as unit tests, but only the integration suite.
+// Runs only the integration suite, which needs a local Supabase stack.
 export default defineConfig({
-  ...baseConfig,
-  test: { ...baseConfig.test, include: ["tests/integration/**/*.test.ts"] },
+  resolve: {
+    alias: { "@": fileURLToPath(new URL("./src", import.meta.url)) },
+  },
+  test: {
+    include: ["tests/integration/**/*.test.ts"],
+    environment: "node",
+  },
 });
