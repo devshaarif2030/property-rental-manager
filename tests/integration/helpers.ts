@@ -6,6 +6,7 @@ import type { Database } from "@/lib/supabase/database.types";
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
 const PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? "";
+const SECRET_KEY = process.env.SUPABASE_SECRET_KEY ?? "";
 export const SEED_ORG_ID = "10000000-0000-0000-0000-000000000001";
 export const SEED_TENANT_ID = "10000000-0000-0000-0000-0000000000a3";
 export const SEED_STAFF_ID = "10000000-0000-0000-0000-0000000000a4";
@@ -52,4 +53,11 @@ export function leaseFor(unitId: string, tenantId: string) {
     deposit_amount_cents: 110000,
     due_day: 1,
   };
+}
+
+/** Service-role client, standing in for the Stripe webhook and pg_cron jobs. */
+export function serviceRoleClient() {
+  return createClient<Database>(SUPABASE_URL, SECRET_KEY, {
+    auth: { persistSession: false, autoRefreshToken: false },
+  });
 }

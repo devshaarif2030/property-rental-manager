@@ -376,7 +376,11 @@ isOneToOne: false
         to: "profiles"
         isOneToOne: true
         isSetofReturn: false
-      } }
+      } },
+"fail_rent_payment":
+{ Args: { "p_session_id": string }; Returns: undefined },
+"record_rent_payment":
+{ Args: { "p_amount_cents": number,"p_currency": string,"p_payment_intent": string,"p_session_id": string }; Returns: boolean }
           }
           Enums: {
             "lease_status": "active"|"ended","payment_status": "pending"|"succeeded"|"failed"|"refunded","rent_charge_status": "due"|"paid"|"overdue","request_category": "plumbing"|"electrical"|"heating"|"appliance"|"pest"|"structural"|"other","request_priority": "emergency"|"high"|"normal"|"low","request_status": "open"|"assigned"|"in_progress"|"done"|"cancelled","unit_status": "vacant"|"occupied","user_role": "admin"|"manager"|"tenant"|"staff"
