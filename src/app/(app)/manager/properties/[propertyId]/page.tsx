@@ -76,7 +76,11 @@ export default async function PropertyPage({ params }: PageProps<"/manager/prope
               <tbody className="divide-y">
                 {property.units.map((unit) => (
                   <tr key={unit.id}>
-                    <td className="px-4 py-3 font-medium">{unit.label}</td>
+                    <td className="px-4 py-3 font-medium">
+                      <Link href={`${basePath}/units/${unit.id}`} className="underline-offset-4 hover:underline">
+                        {unit.label}
+                      </Link>
+                    </td>
                     <td className="px-4 py-3">
                       {unit.bedrooms} / {unit.bathrooms}
                     </td>
