@@ -30,7 +30,7 @@ jobs:
       - run: pnpm build
 
   database:
-    name: Migrations, RLS tests, auth integration
+    name: Migrations, RLS tests, integration tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -50,7 +50,7 @@ jobs:
         run: |
           pnpm db:types
           git diff --exit-code -- src/lib/supabase/database.types.ts
-      - name: Run integration tests (auth, invites)
+      - name: Run integration tests (auth, invites, properties)
         run: |
           status=$(pnpm exec supabase status -o json)
           export NEXT_PUBLIC_SUPABASE_URL=$(echo "$status" | jq -r '.API_URL')

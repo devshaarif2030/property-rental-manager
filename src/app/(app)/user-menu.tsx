@@ -18,9 +18,14 @@ export async function UserMenu() {
         <span className="text-muted-foreground"> · {ROLE_LABELS[user.role]}</span>
       </Link>
       {(user.role === "admin" || user.role === "manager") && (
-        <Link href="/manager/people" className="text-muted-foreground hover:text-foreground">
-          People
-        </Link>
+        <nav className="flex items-center gap-4">
+          <Link href="/manager/properties" className="text-muted-foreground hover:text-foreground">
+            Properties
+          </Link>
+          <Link href="/manager/people" className="text-muted-foreground hover:text-foreground">
+            People
+          </Link>
+        </nav>
       )}
       <form action={signOut}>
         <Button type="submit" variant="outline" size="sm">
