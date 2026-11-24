@@ -5,6 +5,10 @@ create extension if not exists pgtap with schema extensions;
 \ir _fixture.psql
 select plan(15);
 
+-- Storage blocks raw SQL deletes unless this is set (the Storage API sets it
+-- itself). The policies under test still decide which rows a delete reaches.
+select set_config('storage.allow_delete_query', 'true', true);
+
 -- Object names: <org_id>/<lease_id>/<file_id>.pdf
 insert into storage.objects (bucket_id, name) values
   ('lease-documents',
