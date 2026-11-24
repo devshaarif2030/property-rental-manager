@@ -71,3 +71,78 @@ export async function getReceiptBySession(supabase: Client, sessionId: string): 
     propertyAddress: `${unit.properties.address_line}, ${unit.properties.city} ${unit.properties.postcode}`,
   };
 }
+
+export type PaymentHistoryRow = {
+  id: string;
+  sessionId: string;
+  amountCents: number;
+  paidAt: string;
+  periodMonth: string;
+};
+
+/** Succeeded payments, newest first. Each links to its receipt. */
+export async function listPaymentHistory(supabase: Client, limit = 24): Promise<PaymentHistoryRow[]> {
+  const { data, error } = await supabase
+    .from("payments")
+    .select("id, stripe_session_id, amount_cents, paid_at, rent_charges(period_month)")
+    .eq("status", "succeeded")
+    .order("paid_at", { ascending: false })
+    .limit(limit);
+  if (error) throw error;
+
+  return data.flatMap((payment) =>
+    payment.paid_at
+      ? [
+          {
+            id: payment.id,
+            sessionId: payment.stripe_session_id,
+            amountCents: payment.amount_cents,
+            paidAt: payment.paid_at,
+            periodMonth: payment.rent_charges.period_month,
+          },
+        ]
+      : [],
+  );
+}
+
+export type TenantLease = {
+  id: string;
+  startDate: string;
+  endDate: string | null;
+  rentAmountCents: number;
+  dueDay: number;
+  hasDocument: boolean;
+  unitLabel: string;
+  propertyName: string;
+  propertyAddress: string;
+};
+
+/** The tenant's current lease, if any. A tenant has at most a few, so pick the latest active one. */
+export async function getTenantLease(supabase: Client, tenantId: string): Promise<TenantLease | null> {
+  const { data, error } = await supabase
+    .from("leases")
+    .select(
+      `id, start_date, end_date, rent_amount_cents, due_day, document_path,
+       units(label, properties(name, address_line, city, postcode))`,
+    )
+    .eq("tenant_id", tenantId)
+    .eq("status", "active")
+    .order("start_date", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  if (error) throw error;
+  if (!data) return null;
+
+  const property = data.units.properties;
+  return {
+    id: data.id,
+    startDate: data.start_date,
+    endDate: data.end_date,
+    rentAmountCents: data.rent_amount_cents,
+    dueDay: data.due_day,
+    hasDocument: data.document_path !== null,
+    unitLabel: data.units.label,
+    propertyName: property.name,
+    propertyAddress: `${property.address_line}, ${property.city} ${property.postcode}`,
+  };
+}
