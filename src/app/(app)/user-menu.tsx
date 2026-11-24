@@ -17,6 +17,11 @@ export async function UserMenu() {
         <span className="font-medium">{user.fullName}</span>
         <span className="text-muted-foreground"> · {ROLE_LABELS[user.role]}</span>
       </Link>
+      {(user.role === "admin" || user.role === "manager") && (
+        <Link href="/manager/people" className="text-muted-foreground hover:text-foreground">
+          People
+        </Link>
+      )}
       <form action={signOut}>
         <Button type="submit" variant="outline" size="sm">
           Sign out
