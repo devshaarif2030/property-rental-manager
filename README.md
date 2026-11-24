@@ -21,6 +21,10 @@ Work in progress (week 1 of 4). The full README with demo, GIFs and diagrams lan
 Access is enforced in Postgres with Row Level Security. Every business table has `org_id`,
 and `supabase/tests/database` holds pgTAP tests that prove each role sees only its own rows.
 
+## Deploy
+
+Supabase Free + Vercel Hobby. Step by step in [docs/deploy.md](docs/deploy.md).
+
 ## Run locally
 
 Requires Node 22, pnpm and Docker.
