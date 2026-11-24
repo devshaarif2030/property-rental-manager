@@ -26,8 +26,9 @@ pnpm exec supabase db push                        # applies supabase/migrations
 password is not used in production.
 
 Check it worked: in the dashboard, Table Editor should list the 13 tables, each marked as
-RLS enabled. Storage should list a private `lease-documents` bucket, which the migrations
-create.
+RLS enabled. Storage should list a private `lease-documents` bucket, and Integrations → Cron should list
+two nightly jobs, `generate-rent-charges` and `mark-overdue-rent-charges`. The migrations
+create both, and they enable `pg_cron`, which the Free plan includes.
 
 ## 3. Supabase Auth settings
 

@@ -64,6 +64,8 @@ CI runs all of these on every pull request.
 - Clients cannot write rent charges, payments, notifications or the audit log. Payments are
   recorded only by the verified Stripe webhook using the service role.
 - The audit log is insert-only, enforced by a trigger.
+- Rent charges are created by a nightly `pg_cron` job (one per active lease per month) and
+  marked overdue by a second one. Both run inside Postgres and clients cannot call them.
 - Lease PDFs live in a private Storage bucket, under `<org_id>/<lease_id>/`. Storage policies
   let the org's managers upload and read them and the lease's tenant read them. Files are only
   served through 60 second signed URLs, and uploads are checked for type, size and the PDF header.

@@ -116,3 +116,30 @@ export async function listTenantOptions(supabase: Client): Promise<TenantOption[
     hasActiveLease: tenant.leases.some((lease) => lease.status === "active"),
   }));
 }
+
+export type RentChargeRow = {
+  id: string;
+  periodMonth: string;
+  amountCents: number;
+  dueDate: string;
+  status: Database["public"]["Enums"]["rent_charge_status"];
+};
+
+/** Most recent charges first. Charges are created by the nightly job, never by clients. */
+export async function listLeaseCharges(supabase: Client, leaseId: string, limit = 12): Promise<RentChargeRow[]> {
+  const { data, error } = await supabase
+    .from("rent_charges")
+    .select("id, period_month, amount_cents, due_date, status")
+    .eq("lease_id", leaseId)
+    .order("period_month", { ascending: false })
+    .limit(limit);
+  if (error) throw error;
+
+  return data.map((charge) => ({
+    id: charge.id,
+    periodMonth: charge.period_month,
+    amountCents: charge.amount_cents,
+    dueDate: charge.due_date,
+    status: charge.status,
+  }));
+}
