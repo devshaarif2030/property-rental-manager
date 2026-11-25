@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { getReceiptBySession, listOpenCharges } from "@/lib/payments/queries";
+import { getReceiptBySession, getTenantLease, listOpenCharges, listPaymentHistory } from "@/lib/payments/queries";
 
 import { createVacantUnit, leaseFor, SEED_ORG_ID, SEED_TENANT_ID, serviceRoleClient, signedInAs } from "./helpers";
 
@@ -56,6 +56,22 @@ describe("payments", () => {
     expect((await listOpenCharges(tenant)).map((charge) => charge.id)).not.toContain(chargeId);
     const receipt = await getReceiptBySession(tenant, sessionId);
     expect(receipt).toMatchObject({ status: "succeeded", amountCents: 110000, periodMonth: "2026-12-01" });
+
+    const history = await listPaymentHistory(tenant);
+    expect(history.find((row) => row.sessionId === sessionId)).toMatchObject({ amountCents: 110000 });
+  });
+
+  it("a pending payment is not in the history", async () => {
+    const { sessionId } = await chargeWithPendingPayment();
+    const { supabase: tenant } = await signedInAs("tenant@demo.test");
+    expect((await listPaymentHistory(tenant)).map((row) => row.sessionId)).not.toContain(sessionId);
+  });
+
+  it("the tenant sees their active lease", async () => {
+    await chargeWithPendingPayment();
+    const { supabase: tenant } = await signedInAs("tenant@demo.test");
+    const lease = await getTenantLease(tenant, SEED_TENANT_ID);
+    expect(lease).toMatchObject({ unitLabel: "Flat 1", rentAmountCents: 110000 });
   });
 
   it("a tenant cannot record their own payment", async () => {
@@ -89,5 +105,7 @@ describe("payments", () => {
     await chargeWithPendingPayment();
     const { supabase: staff } = await signedInAs("staff@demo.test");
     expect(await listOpenCharges(staff)).toEqual([]);
+    expect(await listPaymentHistory(staff)).toEqual([]);
+    expect(await getTenantLease(staff, SEED_TENANT_ID)).toBeNull();
   });
 });
