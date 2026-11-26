@@ -241,3 +241,10 @@
     transition: none;
   }
 }
+
+/* Lift the developer credit above the phone tab bar. */
+@media (width < 64rem) {
+  body:has([data-bottom-nav]) .dev-credit {
+    bottom: 5.25rem;
+  }
+}

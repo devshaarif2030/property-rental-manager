@@ -52,6 +52,7 @@ export function BottomNav({ items }: { items: NavItem[] }) {
   return (
     <nav
       aria-label="Main"
+      data-bottom-nav
       className="glass-light fixed inset-x-3 bottom-3 z-40 flex justify-around rounded-2xl px-2 py-1.5 lg:hidden"
     >
       {items.map((item) => {

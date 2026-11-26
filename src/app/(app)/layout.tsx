@@ -25,7 +25,7 @@ export default function AppLayout({ children }: LayoutProps<"/">) {
             <UserMenu />
           </Suspense>
         </header>
-        <main className="stagger-page flex-1 px-1 pt-2 pb-28 sm:px-2 lg:pb-8">{children}</main>
+        <main className="stagger-page flex-1 px-1 pt-2 pb-40 sm:px-2 lg:pb-8">{children}</main>
       </div>
       <Suspense>
         <MobileNav />
