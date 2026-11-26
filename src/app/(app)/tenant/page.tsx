@@ -1,8 +1,11 @@
 import Link from "next/link";
 
+import { RequestList } from "@/components/maintenance/request-list";
 import { TestModeNotice } from "@/components/test-mode-notice";
+import { Button } from "@/components/ui/button";
 import { requireRole } from "@/lib/auth/session";
 import { formatIsoDate, formatIsoMonth } from "@/lib/dates";
+import { listRequests } from "@/lib/maintenance/queries";
 import { formatCents } from "@/lib/money/money";
 import {
   getTenantLease,
@@ -115,11 +118,12 @@ function PaymentHistory({ payments, currency }: { payments: PaymentHistoryRow[];
 export default async function TenantHomePage() {
   const user = await requireRole(["tenant"], "/tenant");
   const supabase = await createClient();
-  const [lease, charges, payments, currency] = await Promise.all([
+  const [lease, charges, payments, currency, requests] = await Promise.all([
     getTenantLease(supabase, user.id),
     listOpenCharges(supabase),
     listPaymentHistory(supabase),
     getOrganizationCurrency(supabase, user.orgId),
+    listRequests(supabase),
   ]);
 
   return (
@@ -139,6 +143,22 @@ export default async function TenantHomePage() {
         <h2 className="text-lg font-semibold">Rent to pay</h2>
         <TestModeNotice />
         <RentToPay charges={charges} currency={currency} />
+      </section>
+
+      <section className="flex flex-col gap-3">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <h2 className="text-lg font-semibold">Maintenance</h2>
+          {lease && (
+            <Button asChild size="sm">
+              <Link href="/tenant/requests/new">Report a problem</Link>
+            </Button>
+          )}
+        </div>
+        <RequestList
+          requests={requests}
+          hrefFor={(requestId) => `/tenant/requests/${requestId}`}
+          empty="No maintenance requests yet."
+        />
       </section>
 
       <section className="flex flex-col gap-3">
