@@ -2,6 +2,7 @@ import "server-only";
 
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
+import { connection } from "next/server";
 
 import { getPublicEnv } from "@/lib/env";
 
@@ -10,6 +11,10 @@ import type { Database } from "./database.types";
 /** Supabase client for Server Components, Server Actions and Route Handlers. Runs as the signed-in user. */
 export async function createClient() {
   const cookieStore = await cookies();
+  // Supabase Auth reads the clock (Date.now) to check session expiry. Waiting
+  // for the request first keeps that out of Next's prerender stages, which
+  // otherwise log "encountered the unstable value Date.now()" on every page.
+  await connection();
   const env = getPublicEnv();
 
   return createServerClient<Database>(
