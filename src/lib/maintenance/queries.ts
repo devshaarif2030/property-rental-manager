@@ -58,6 +58,7 @@ export type RequestDetail = RequestSummary & {
   aiCategory: RequestCategory | null;
   aiPriority: RequestPriority | null;
   aiReason: string | null;
+  aiSource: "ai" | "rules" | null;
   tenantName: string | null;
   photos: RequestPhoto[];
   updates: RequestUpdate[];
@@ -67,7 +68,7 @@ export async function getRequestDetail(supabase: Client, requestId: string): Pro
   const { data, error } = await supabase
     .from("maintenance_requests")
     .select(
-      `id, title, description, status, category, priority, assigned_to, ai_category, ai_priority, ai_reason, created_at,
+      `id, title, description, status, category, priority, assigned_to, ai_category, ai_priority, ai_reason, ai_source, created_at,
        units(label, properties(name)),
        tenant:profiles!maintenance_requests_org_id_tenant_id_fkey(full_name),
        request_photos(id, storage_path, created_at),
@@ -115,6 +116,7 @@ export async function getRequestDetail(supabase: Client, requestId: string): Pro
     aiCategory: data.ai_category,
     aiPriority: data.ai_priority,
     aiReason: data.ai_reason,
+    aiSource: data.ai_source === "ai" || data.ai_source === "rules" ? data.ai_source : null,
     createdAt: data.created_at,
     unitLabel: data.units.label,
     propertyName: data.units.properties.name,
