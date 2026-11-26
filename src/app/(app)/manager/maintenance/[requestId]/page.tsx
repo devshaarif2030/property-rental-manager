@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { RequestDetailView } from "@/components/maintenance/request-detail-view";
+import { TriageSuggestion } from "@/components/maintenance/triage-suggestion";
 import { requireRole } from "@/lib/auth/session";
 import { getRequestDetail, listStaff } from "@/lib/maintenance/queries";
 import { idSchema } from "@/lib/properties/schemas";
@@ -32,10 +33,16 @@ export default async function ManagerRequestPage({ params }: PageProps<"/manager
       {!isClosed && (
         <section className="flex flex-col gap-3">
           <h2 className="text-lg font-semibold">Triage</h2>
+          <TriageSuggestion request={request} />
           <TriageForm
             requestId={request.id}
             staff={staff}
-            defaults={{ category: request.category, priority: request.priority, assignedTo: request.assignedTo }}
+            // Until the manager confirms, start from the suggestion.
+            defaults={{
+              category: request.category ?? request.aiCategory,
+              priority: request.priority ?? request.aiPriority,
+              assignedTo: request.assignedTo,
+            }}
           />
         </section>
       )}

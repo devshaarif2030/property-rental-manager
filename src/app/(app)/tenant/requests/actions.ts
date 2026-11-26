@@ -2,12 +2,14 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { after } from "next/server";
 
 import { requireRole } from "@/lib/auth/session";
 import { REQUEST_PHOTOS_BUCKET, requestPhotoPath, validatePhotos } from "@/lib/maintenance/photos";
 import { newRequestSchema } from "@/lib/maintenance/requests";
 import type { FormActionResult } from "@/lib/properties/schemas";
 import { createClient } from "@/lib/supabase/server";
+import { runTriage } from "@/lib/triage/run";
 
 const NEW_REQUEST_PATH = "/tenant/requests/new";
 const FAILED: FormActionResult = { ok: false, error: "Could not send the request. Try again." };
@@ -75,6 +77,10 @@ export async function createMaintenanceRequest(formData: FormData): Promise<Form
       await storage.remove([path]);
     }
   }
+
+  // AI triage (or the keyword fallback) runs after the response, so the
+  // tenant never waits on Gemini and a Gemini outage cannot block a report.
+  after(() => runTriage(request.id));
 
   revalidatePath("/tenant");
   // The request is saved either way; say so if a photo did not make it.
