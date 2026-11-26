@@ -82,6 +82,19 @@ jobs:
       - run: pnpm build
       - run: pnpm exec playwright install --with-deps chromium
       - run: pnpm screenshots
+      - name: TEMP review thumbnails
+        run: |
+          pip install --quiet pillow
+          python3 - <<'PY'
+          import base64, io
+          from PIL import Image
+          for name in ["manager-dashboard", "tenant-home", "phone-manager-dashboard"]:
+              im = Image.open(f"screenshots/{name}.png").convert("RGB")
+              w = 820 if not name.startswith("phone") else 300
+              im = im.resize((w, int(im.height * w / im.width)))
+              buf = io.BytesIO(); im.save(buf, "JPEG", quality=45)
+              print(f"BEGIN {name}"); print(base64.b64encode(buf.getvalue()).decode()); print(f"END {name}")
+          PY
       - uses: actions/upload-artifact@v4
         if: always()
         with:
