@@ -14,7 +14,7 @@ const clientOptions = { auth: { persistSession: false, autoRefreshToken: false }
 const admin = createClient<Database>(SUPABASE_URL, SECRET_KEY, clientOptions);
 
 describe("demo login", () => {
-  it.each(["manager", "tenant"] as const)("signs in as the demo %s without a password", async (role) => {
+  it.each(["manager", "tenant", "staff"] as const)("signs in as the demo %s without a password", async (role) => {
     const { data: email, error: lookupError } = await admin.rpc("demo_account_email", { p_role: role });
     expect(lookupError).toBeNull();
     expect(email).toBeTruthy();
