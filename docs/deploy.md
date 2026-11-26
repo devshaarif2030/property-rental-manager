@@ -118,6 +118,17 @@ CLI and put the `whsec_` it prints in `.env.local`.
    the SQL Editor). Sign in as the tenant, press Pay now, and pay with the test card
    `4242 4242 4242 4242`. You land on the receipt and the charge shows as paid.
 
+## If sign in does not work
+
+- **"This account has no profile in the app yet"**: the auth user exists but has no row in
+  `public.profiles`. Run `select id, email from auth.users;` and `select id, role from
+  public.profiles;` in the SQL Editor, then rerun the step 4 query with the exact user id.
+- **"Email or password is incorrect"**: reset the password under Authentication → Users, or
+  check that the user was created with auto confirm ticked.
+- **"Something went wrong"**: open Vercel → the deployment → Logs. A missing or mistyped
+  environment variable shows up there. Fix it and redeploy, since variables only apply to
+  new deployments.
+
 ## Keeping it alive
 
 Free Supabase projects pause after about a week with no activity. Open the demo at least

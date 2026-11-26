@@ -5,7 +5,7 @@ import { cache } from "react";
 
 import { createClient } from "@/lib/supabase/server";
 
-import { homePathForRole, signInPathFor } from "./paths";
+import { homePathForRole, NO_PROFILE_SIGN_IN_PATH, signInPathFor } from "./paths";
 import type { UserRole } from "./roles";
 
 export type CurrentUser = {
@@ -21,6 +21,12 @@ export type CurrentUser = {
  * getClaims; the role comes from the profiles table, never from the token.
  * Cached per request.
  */
+const getSessionUserId = cache(async (): Promise<string | null> => {
+  const supabase = await createClient();
+  const { data } = await supabase.auth.getClaims();
+  return data?.claims.sub ?? null;
+});
+
 export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => {
   const supabase = await createClient();
   const { data: claimsData } = await supabase.auth.getClaims();
@@ -47,8 +53,9 @@ export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => {
 /** Use at the top of every protected page and server action. */
 export async function requireUser(currentPath: string): Promise<CurrentUser> {
   const user = await getCurrentUser();
-  if (!user) redirect(signInPathFor(currentPath));
-  return user;
+  if (user) return user;
+  // Signed in but no profile row: say so on the sign-in page instead of looping.
+  redirect((await getSessionUserId()) ? NO_PROFILE_SIGN_IN_PATH : signInPathFor(currentPath));
 }
 
 /** Redirects users with any other role to their own home. */

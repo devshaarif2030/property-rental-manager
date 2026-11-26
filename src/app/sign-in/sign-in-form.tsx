@@ -20,15 +20,19 @@ import { sendMagicLink, signInWithPassword } from "./actions";
 
 type Mode = "password" | "magic-link";
 
-const LINK_ERROR = "That sign-in link is invalid or has expired. Request a new one.";
+const URL_ERRORS: Record<string, string> = {
+  link_invalid: "That sign-in link is invalid or has expired. Request a new one.",
+  no_profile:
+    "Your sign-in worked, but this account has no profile in the app yet. An admin needs to finish setting it up.",
+};
 
 export function SignInForm() {
   const searchParams = useSearchParams();
   const next = searchParams.get("next") ?? undefined;
   const [mode, setMode] = useState<Mode>("password");
-  const [result, setResult] = useState<AuthActionResult | null>(
-    searchParams.get("error") === "link_invalid" ? { ok: false, error: LINK_ERROR } : null,
-  );
+  const errorCode = searchParams.get("error") ?? "";
+  const urlError = Object.hasOwn(URL_ERRORS, errorCode) ? URL_ERRORS[errorCode] : undefined;
+  const [result, setResult] = useState<AuthActionResult | null>(urlError ? { ok: false, error: urlError } : null);
 
   function switchMode(nextMode: Mode) {
     setMode(nextMode);

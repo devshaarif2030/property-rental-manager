@@ -2,6 +2,8 @@ import type { UserRole } from "./roles";
 
 export const SIGN_IN_PATH = "/sign-in";
 export const DASHBOARD_PATH = "/dashboard";
+/** Where a signed-in user without a profile row is sent. */
+export const NO_PROFILE_SIGN_IN_PATH = `${SIGN_IN_PATH}?error=no_profile`;
 
 const HOME_PATH_BY_ROLE: Record<UserRole, string> = {
   admin: "/admin",

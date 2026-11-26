@@ -14,18 +14,28 @@ import {
 import { createClient } from "@/lib/supabase/server";
 
 const INVALID_INPUT = "Check the highlighted fields and try again.";
+const NO_PROFILE_ERROR =
+  "Your sign-in worked, but this account has no profile in the app yet. An admin needs to finish setting it up.";
 
 export async function signInWithPassword(input: PasswordSignInInput): Promise<AuthActionResult> {
   const parsed = passwordSignInSchema.safeParse(input);
   if (!parsed.success) return { ok: false, error: INVALID_INPUT };
 
   const supabase = await createClient();
-  const { error } = await supabase.auth.signInWithPassword({
+  const { data, error } = await supabase.auth.signInWithPassword({
     email: parsed.data.email,
     password: parsed.data.password,
   });
   // One message for every failure, so the form does not reveal which emails exist.
   if (error) return { ok: false, error: "Email or password is incorrect." };
+
+  // Without a profile every page would send the user back here, so say why
+  // instead of looping. The password was right, so this reveals nothing new.
+  const { data: profile } = await supabase.from("profiles").select("id").eq("id", data.user.id).maybeSingle();
+  if (!profile) {
+    await supabase.auth.signOut();
+    return { ok: false, error: NO_PROFILE_ERROR };
+  }
 
   redirect(safeNextPath(parsed.data.next));
 }
