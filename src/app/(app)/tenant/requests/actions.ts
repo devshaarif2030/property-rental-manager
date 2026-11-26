@@ -9,6 +9,7 @@ import { REQUEST_PHOTOS_BUCKET, requestPhotoPath, validatePhotos } from "@/lib/m
 import { newRequestSchema } from "@/lib/maintenance/requests";
 import type { FormActionResult } from "@/lib/properties/schemas";
 import { createClient } from "@/lib/supabase/server";
+import { sendNotificationEmails } from "@/lib/notifications/email";
 import { runTriage } from "@/lib/triage/run";
 
 const NEW_REQUEST_PATH = "/tenant/requests/new";
@@ -80,7 +81,11 @@ export async function createMaintenanceRequest(formData: FormData): Promise<Form
 
   // AI triage (or the keyword fallback) runs after the response, so the
   // tenant never waits on Gemini and a Gemini outage cannot block a report.
-  after(() => runTriage(request.id));
+  // An emergency suggestion is then emailed to the manager.
+  after(async () => {
+    await runTriage(request.id);
+    await sendNotificationEmails();
+  });
 
   revalidatePath("/tenant");
   // The request is saved either way; say so if a photo did not make it.

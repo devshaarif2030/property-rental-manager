@@ -1,9 +1,11 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { after } from "next/server";
 
 import { requireRole } from "@/lib/auth/session";
 import { triageSchema, type TriageInput } from "@/lib/maintenance/requests";
+import { sendNotificationEmails } from "@/lib/notifications/email";
 import { idSchema } from "@/lib/properties/schemas";
 import { createClient } from "@/lib/supabase/server";
 
@@ -35,6 +37,8 @@ export async function triageRequest(requestId: string, input: TriageInput): Prom
   });
   if (error) return { ok: false, error: ERRORS[error.message] ?? "Could not save the triage. Try again." };
 
+  // Raising a request to emergency emails the property manager.
+  after(() => sendNotificationEmails());
   revalidatePath(MAINTENANCE_PATH, "layout");
   return { ok: true };
 }

@@ -129,14 +129,14 @@ isOneToOne: false
                   ]
                 },"notifications": {
                   Row: {
-                    "created_at": string,"id": string,"link": string | null,"org_id": string,"read_at": string | null,"title": string,"type": string,"user_id": string
+                    "created_at": string,"emailed_at": string | null,"id": string,"link": string | null,"org_id": string,"read_at": string | null,"title": string,"type": string,"user_id": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "created_at"?: string,"id"?: string,"link"?: string | null,"org_id": string,"read_at"?: string | null,"title": string,"type": string,"user_id": string
+                    "created_at"?: string,"emailed_at"?: string | null,"id"?: string,"link"?: string | null,"org_id": string,"read_at"?: string | null,"title": string,"type": string,"user_id": string
                   }
                   Update: {
-                    "created_at"?: string,"id"?: string,"link"?: string | null,"org_id"?: string,"read_at"?: string | null,"title"?: string,"type"?: string,"user_id"?: string
+                    "created_at"?: string,"emailed_at"?: string | null,"id"?: string,"link"?: string | null,"org_id"?: string,"read_at"?: string | null,"title"?: string,"type"?: string,"user_id"?: string
                   }
                   Relationships: [
                     {
@@ -377,6 +377,11 @@ isOneToOne: false
         isOneToOne: true
         isSetofReturn: false
       } },
+"claim_notification_emails":
+{ Args: { "p_limit"?: number }; Returns: {
+              "email": string,"id": string,"link": string,"title": string
+            }[]
+                           },
 "demo_account_email":
 { Args: { "p_role": Database["public"]['Enums']["user_role"] }; Returns: string
                            },

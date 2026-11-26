@@ -141,6 +141,20 @@ set again, including four sample maintenance requests (one waiting for triage, o
 assigned to the demo staff, one in progress, one done). People are kept. The staff
 account is optional; without it the sample jobs stay unassigned. Run it by hand with `select private.reset_demo_data();`.
 
+## 9. Emergency emails (optional)
+
+Notifications always show in the app. To also email the manager when a request is
+flagged as an emergency, add a free Resend key:
+
+1. Sign up at resend.com and create an API key (Sending access).
+2. In Vercel → Settings → Environment Variables (Production) add `RESEND_API_KEY`.
+3. Until you verify a domain, Resend only delivers to your own Resend account address,
+   from `onboarding@resend.dev`. To email anyone, verify a domain in Resend (add its DNS
+   records) and set `EMAIL_FROM`, for example `Property Rental Manager <alerts@your-domain.com>`.
+4. Redeploy.
+
+Shared demo accounts never get email, so demo visitors cannot make the app send mail.
+
 ## If sign in does not work
 
 - **"This account has no profile in the app yet"**: the auth user exists but has no row in
