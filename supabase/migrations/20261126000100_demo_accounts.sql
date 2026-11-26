@@ -50,13 +50,14 @@ $$;
 revoke all on function public.demo_account_email(public.user_role) from public, anon, authenticated;
 grant execute on function public.demo_account_email(public.user_role) to service_role;
 
-drop policy "managers invite tenants and staff, admins invite any role" on public.invites;
-
-create policy "managers invite tenants and staff, admins invite any role, demo accounts cannot invite"
-  on public.invites for insert to authenticated
+-- Altered in place rather than dropped and recreated, so the policy is never missing.
+alter policy "managers invite tenants and staff, admins invite any role" on public.invites
   with check (
     org_id = (select private.managed_org_id())
     and invited_by = (select auth.uid())
     and (role in ('tenant', 'staff') or org_id = (select private.admin_org_id()))
     and not (select private.is_demo_user())
   );
+
+alter policy "managers invite tenants and staff, admins invite any role" on public.invites
+  rename to "managers invite tenants and staff, admins invite any role, demo accounts cannot invite";
