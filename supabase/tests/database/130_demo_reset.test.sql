@@ -3,12 +3,13 @@
 begin;
 create extension if not exists pgtap with schema extensions;
 \ir _fixture.psql
-select plan(14);
+select plan(18);
 
 delete from private.demo_accounts; -- the local seed adds its own
 insert into private.demo_accounts (role, user_id) values
   ('manager', '00000000-0002-0000-0000-0000000000a1'),
-  ('tenant', '00000000-0002-0000-0000-0000000000a2');
+  ('tenant', '00000000-0002-0000-0000-0000000000a2'),
+  ('staff', '00000000-0002-0000-0000-0000000000a4');
 
 create temporary table org_b_before as
   select
@@ -25,9 +26,28 @@ select results_eq(
 select is(
   (select count(*)::int from public.units where org_id = '00000000-0001-0000-0000-00000000000a'), 8,
   'org A has the eight sample units');
+select results_eq(
+  $$ select title, status::text, coalesce(assigned_to::text, '-'), coalesce(category::text, '-'), coalesce(ai_source, '-')
+     from public.maintenance_requests where org_id = '00000000-0001-0000-0000-00000000000a' order by created_at $$,
+  $$ values
+       ('Front door lock sticking', 'done', '00000000-0002-0000-0000-0000000000a4', 'structural', '-'),
+       ('Hallway light flickering', 'in_progress', '00000000-0002-0000-0000-0000000000a4', 'electrical', '-'),
+       ('Bathroom extractor fan not working', 'assigned', '00000000-0002-0000-0000-0000000000a4', 'electrical', '-'),
+       ('Kitchen tap keeps dripping', 'open', '-', '-', 'rules') $$,
+  'old requests are replaced by the four sample requests');
+select results_eq(
+  $$ select coalesce(u.status::text, 'note') from public.request_updates u
+     join public.maintenance_requests r on r.id = u.request_id
+     where r.title = 'Front door lock sticking' and r.org_id = '00000000-0001-0000-0000-00000000000a'
+     order by u.created_at $$,
+  $$ values ('open'), ('assigned'), ('in_progress'), ('done') $$,
+  'the done job has a full timeline in order');
 select is(
-  (select count(*)::int from public.maintenance_requests where org_id = '00000000-0001-0000-0000-00000000000a'), 0,
-  'old requests are gone');
+  (select count(*)::int from public.maintenance_requests r
+   where r.org_id = '00000000-0001-0000-0000-00000000000a' and r.status <> 'open'
+     and r.status = (select u.status from public.request_updates u where u.request_id = r.id and u.status is not null
+                     order by u.created_at desc limit 1)), 3,
+  'each job''s latest timeline status matches the request');
 select is(
   (select count(*)::int from public.invites where org_id = '00000000-0001-0000-0000-00000000000a'), 0,
   'pending invites are gone');
@@ -57,6 +77,13 @@ select is(
   (select count(*)::int from public.properties where org_id = '00000000-0001-0000-0000-00000000000a'), 3,
   'running it again does not duplicate anything');
 
+delete from private.demo_accounts where role = 'staff';
+select private.reset_demo_data('2027-03-29');
+select is(
+  (select count(*)::int from public.maintenance_requests
+   where org_id = '00000000-0001-0000-0000-00000000000a' and assigned_to is null and status = 'open'), 4,
+  'without a demo staff account the sample requests stay open and unassigned');
+
 select results_eq(
   $$ select
        (select count(*) from public.properties where org_id = '00000000-0001-0000-0000-00000000000b'),
@@ -66,12 +93,17 @@ select results_eq(
   'other organizations are untouched');
 
 select is(
-  (select count(*)::int from public.audit_log where org_id = '00000000-0001-0000-0000-00000000000a' and action = 'demo.reset'), 2,
+  (select count(*)::int from public.audit_log where org_id = '00000000-0001-0000-0000-00000000000a' and action = 'demo.reset'), 3,
   'each reset is written to the audit log');
 
 select ok(
   not has_function_privilege('authenticated', 'private.reset_demo_data(date)', 'EXECUTE'),
   'clients cannot run the reset');
+select ok(
+  not has_function_privilege('authenticated',
+    'private.demo_job(uuid, uuid, uuid, uuid, uuid, date, text, text, public.request_category, public.request_priority, public.request_status, text)',
+    'EXECUTE'),
+  'clients cannot add sample jobs');
 select is(
   (select schedule from cron.job where jobname = 'reset-demo-data'), '0 3 * * *',
   'the reset is scheduled nightly');

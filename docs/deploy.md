@@ -121,21 +121,25 @@ CLI and put the `whsec_` it prints in `.env.local`.
 ## 8. One-click demo logins
 
 The "Try as" buttons sign in as shared demo accounts listed in `private.demo_accounts`.
-Create a manager and a tenant in the same organization (invites, as in step 4), then map
-them in the SQL Editor:
+Create a manager, a tenant and a maintenance staff member in the same organization
+(invites, as in step 4), then map them in the SQL Editor:
 
 ```sql
 insert into private.demo_accounts (role, user_id)
 select 'manager'::public.user_role, id from auth.users where email = 'manager-demo@example.com'
 union all
-select 'tenant'::public.user_role, id from auth.users where email = 'tenant-demo@example.com';
+select 'tenant'::public.user_role, id from auth.users where email = 'tenant-demo@example.com'
+union all
+select 'staff'::public.user_role, id from auth.users where email = 'staff-demo@example.com';
 ```
 
 Admin is not allowed. Demo accounts cannot create invites.
 
 Every night at 03:00 UTC `private.reset_demo_data()` deletes the demo organization's
 properties, leases, charges, payments, requests and pending invites, and loads the sample
-set again. People are kept. Run it by hand with `select private.reset_demo_data();`.
+set again, including four sample maintenance requests (one waiting for triage, one
+assigned to the demo staff, one in progress, one done). People are kept. The staff
+account is optional; without it the sample jobs stay unassigned. Run it by hand with `select private.reset_demo_data();`.
 
 ## If sign in does not work
 
