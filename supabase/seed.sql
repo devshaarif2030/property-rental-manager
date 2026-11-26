@@ -1,7 +1,7 @@
 -- Local development seed: one fictional organization with one account per role.
 -- Runs on `supabase db reset` and `supabase start`, never on the hosted project.
 -- Every account uses the local-only password: demo-password
--- The full demo dataset (properties, leases, payment history) lands in week 4.
+-- For the full sample portfolio, run: select private.reset_demo_data();
 
 insert into public.organizations (id, name) values
   ('10000000-0000-0000-0000-000000000001', 'Sample Lettings Ltd');
