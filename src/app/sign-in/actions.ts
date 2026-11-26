@@ -3,7 +3,7 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-import { safeNextPath, SIGN_IN_PATH } from "@/lib/auth/paths";
+import { homePathForRole, safeNextPath, SIGN_IN_PATH } from "@/lib/auth/paths";
 import {
   magicLinkSchema,
   passwordSignInSchema,
@@ -11,6 +11,8 @@ import {
   type MagicLinkInput,
   type PasswordSignInInput,
 } from "@/lib/auth/schemas";
+import { demoRoleSchema } from "@/lib/demo/roles";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 
 const INVALID_INPUT = "Check the highlighted fields and try again.";
@@ -62,6 +64,35 @@ export async function sendMagicLink(input: MagicLinkInput): Promise<AuthActionRe
 
   // Same answer whether or not the email has an account.
   return { ok: true, message: "If that email has an account, a sign-in link is on its way." };
+}
+
+const DEMO_UNAVAILABLE = "The demo login is not available right now. Try again later.";
+
+/**
+ * One-click sign in as a shared demo account. The server looks up the account
+ * for the role, creates a one-time sign-in token with the service role and
+ * exchanges it for a session cookie straight away. No password is shown,
+ * stored or sent, and no email goes out.
+ */
+export async function signInAsDemo(role: unknown): Promise<AuthActionResult> {
+  const parsed = demoRoleSchema.safeParse(role);
+  if (!parsed.success) return { ok: false, error: DEMO_UNAVAILABLE };
+
+  const admin = createAdminClient();
+  const { data: email, error: lookupError } = await admin.rpc("demo_account_email", { p_role: parsed.data });
+  if (lookupError || !email) return { ok: false, error: DEMO_UNAVAILABLE };
+
+  const { data: link, error: linkError } = await admin.auth.admin.generateLink({ type: "magiclink", email });
+  if (linkError) return { ok: false, error: DEMO_UNAVAILABLE };
+
+  const supabase = await createClient();
+  const { error: verifyError } = await supabase.auth.verifyOtp({
+    type: "magiclink",
+    token_hash: link.properties.hashed_token,
+  });
+  if (verifyError) return { ok: false, error: DEMO_UNAVAILABLE };
+
+  redirect(homePathForRole(parsed.data));
 }
 
 export async function signOut(): Promise<void> {

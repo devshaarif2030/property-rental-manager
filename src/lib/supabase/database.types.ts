@@ -377,6 +377,9 @@ isOneToOne: false
         isOneToOne: true
         isSetofReturn: false
       } },
+"demo_account_email":
+{ Args: { "p_role": Database["public"]['Enums']["user_role"] }; Returns: string
+                           },
 "fail_rent_payment":
 { Args: { "p_session_id": string }; Returns: undefined
                            },

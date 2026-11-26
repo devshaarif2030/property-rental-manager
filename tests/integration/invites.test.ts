@@ -5,8 +5,9 @@ import { generateInviteToken } from "@/lib/invites/tokens";
 import type { Database } from "@/lib/supabase/database.types";
 
 // Runs against a local Supabase stack started with `pnpm db:start`.
-// Walks the invite flow the way the app does: the manager creates the invite
-// under RLS, then the server accepts it with the service role.
+// Walks the invite flow the way the app does: an admin creates the invite
+// under RLS, then the server accepts it with the service role. The seeded
+// manager is a shared demo account, and demo accounts cannot invite.
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
 const PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? "";
@@ -40,12 +41,12 @@ function inviteRow(invitedBy: string, email: string, role: Database["public"]["E
 }
 
 describe("invites", () => {
-  it("a manager invites a tenant who accepts and signs in", async () => {
+  it("an admin invites a tenant who accepts and signs in", async () => {
     const email = `invited.${Date.now()}@demo.test`;
-    const manager = await signedInAs("manager@demo.test");
-    const invite = inviteRow(manager.userId, email, "tenant");
+    const inviter = await signedInAs("admin@demo.test");
+    const invite = inviteRow(inviter.userId, email, "tenant");
 
-    const { error: insertError } = await manager.supabase.from("invites").insert(invite.row);
+    const { error: insertError } = await inviter.supabase.from("invites").insert(invite.row);
     expect(insertError).toBeNull();
 
     const admin = createClient<Database>(SUPABASE_URL, SECRET_KEY, clientOptions);
@@ -76,6 +77,13 @@ describe("invites", () => {
   it("a manager cannot invite an admin", async () => {
     const manager = await signedInAs("manager@demo.test");
     const invite = inviteRow(manager.userId, `would-be-admin.${Date.now()}@demo.test`, "admin");
+    const { error } = await manager.supabase.from("invites").insert(invite.row);
+    expect(error).not.toBeNull();
+  });
+
+  it("the shared demo manager cannot invite anyone", async () => {
+    const manager = await signedInAs("manager@demo.test");
+    const invite = inviteRow(manager.userId, `visitor.${Date.now()}@demo.test`, "tenant");
     const { error } = await manager.supabase.from("invites").insert(invite.row);
     expect(error).not.toBeNull();
   });
