@@ -118,6 +118,25 @@ CLI and put the `whsec_` it prints in `.env.local`.
    the SQL Editor). Sign in as the tenant, press Pay now, and pay with the test card
    `4242 4242 4242 4242`. You land on the receipt and the charge shows as paid.
 
+## 8. One-click demo logins
+
+The "Try as" buttons sign in as shared demo accounts listed in `private.demo_accounts`.
+Create a manager and a tenant in the same organization (invites, as in step 4), then map
+them in the SQL Editor:
+
+```sql
+insert into private.demo_accounts (role, user_id)
+select 'manager'::public.user_role, id from auth.users where email = 'manager-demo@example.com'
+union all
+select 'tenant'::public.user_role, id from auth.users where email = 'tenant-demo@example.com';
+```
+
+Admin is not allowed. Demo accounts cannot create invites.
+
+Every night at 03:00 UTC `private.reset_demo_data()` deletes the demo organization's
+properties, leases, charges, payments, requests and pending invites, and loads the sample
+set again. People are kept. Run it by hand with `select private.reset_demo_data();`.
+
 ## If sign in does not work
 
 - **"This account has no profile in the app yet"**: the auth user exists but has no row in
