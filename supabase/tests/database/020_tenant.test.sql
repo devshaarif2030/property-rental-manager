@@ -66,7 +66,7 @@ select is_empty(
 select throws_ok(
   $$ insert into public.request_photos (org_id, request_id, storage_path, uploaded_by)
      values ('00000000-0001-0000-0000-00000000000a', '00000000-0008-0000-0000-0000000000a2',
-             'a/req-a2/sneaky.jpg', '00000000-0002-0000-0000-0000000000a2') $$,
+             '00000000-0001-0000-0000-00000000000a/00000000-0008-0000-0000-0000000000a2/00000000-0014-0000-0000-0000000000a9.jpg', '00000000-0002-0000-0000-0000000000a2') $$,
   '42501', null, 'tenant cannot add a photo to another tenant''s request');
 
 -- Tenants cannot change their own role or organization.
