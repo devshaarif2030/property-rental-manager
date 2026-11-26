@@ -29,8 +29,8 @@ select is(
   'org A has the thirteen sample units');
 select results_eq(
   $$ select status::text, count(*)::int from public.units
-     where org_id = '00000000-0001-0000-0000-00000000000a' group by status order by status $$,
-  $$ values ('vacant', 4), ('occupied', 9) $$,
+     where org_id = '00000000-0001-0000-0000-00000000000a' group by status order by status::text $$,
+  $$ values ('occupied', 9), ('vacant', 4) $$,
   'nine units are let and four are vacant');
 select results_eq(
   $$ select title, status::text, coalesce(assigned_to::text, '-'), coalesce(category::text, '-'), coalesce(ai_source, '-')
@@ -83,7 +83,7 @@ select results_eq(
   'the demo tenant has one lease, started five months back');
 select results_eq(
   $$ select status::text, count(*)::int from public.leases
-     where org_id = '00000000-0001-0000-0000-00000000000a' group by status order by status $$,
+     where org_id = '00000000-0001-0000-0000-00000000000a' group by status order by status::text $$,
   $$ values ('active', 9), ('ended', 1) $$,
   'nine active leases and one ended one');
 select results_eq(
@@ -97,7 +97,7 @@ select results_eq(
   'five paid months with payments, and this month due');
 select results_eq(
   $$ select status::text, count(*)::int from public.rent_charges
-     where org_id = '00000000-0001-0000-0000-00000000000a' and status <> 'paid' group by status order by status $$,
+     where org_id = '00000000-0001-0000-0000-00000000000a' and status <> 'paid' group by status order by status::text $$,
   $$ values ('due', 4), ('overdue', 2) $$,
   'across the portfolio four charges are due and two are overdue');
 select is(
@@ -111,9 +111,9 @@ select ok(
 
 select private.reset_demo_data('2027-03-29');
 select is(
-  (select status::text from public.rent_charges
-   where org_id = '00000000-0001-0000-0000-00000000000a' and period_month = '2027-03-01'), 'overdue',
-  'after the due day the current charge is overdue');
+  (select c.status::text from public.rent_charges c join public.leases l on l.id = c.lease_id
+   where l.tenant_id = '00000000-0002-0000-0000-0000000000a2' and c.period_month = '2027-03-01'), 'overdue',
+  'after the due day the demo tenant''s current charge is overdue');
 select results_eq(
   $$ select
        (select count(*)::int from public.properties where org_id = '00000000-0001-0000-0000-00000000000a'),
