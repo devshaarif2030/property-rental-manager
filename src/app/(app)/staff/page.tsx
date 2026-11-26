@@ -25,7 +25,7 @@ export default async function StaffHomePage() {
         title="My jobs"
         description={`Jobs assigned to you, ${firstName(user.fullName)}. Open one to update its status.`}
       />
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="stagger grid gap-4 sm:grid-cols-3">
         <StatCard tone="brand" icon={ClipboardList} label="To do" value={open.length} hint="Assigned or in progress." />
         <StatCard
           icon={Hammer}

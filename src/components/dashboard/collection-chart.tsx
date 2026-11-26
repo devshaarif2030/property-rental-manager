@@ -44,7 +44,7 @@ export function CollectionChart({ months, currency }: CollectionChartProps) {
                 style={{ height: `${Math.max(6, (month.billedCents / maxBilled) * 100)}%` }}
               >
                 <div
-                  className="w-full rounded-full bg-gradient-to-t from-brand-900 to-brand-600 transition-opacity group-hover:opacity-90"
+                  className="animate-grow-up w-full origin-bottom rounded-full bg-gradient-to-t from-brand-900 to-brand-600 transition-opacity group-hover:opacity-90"
                   style={{ height: `${month.billedCents === 0 ? 0 : (month.collectedCents / month.billedCents) * 100}%` }}
                 />
               </div>

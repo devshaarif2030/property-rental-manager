@@ -60,7 +60,7 @@ export async function ManagerDashboard({ user }: { user: CurrentUser }) {
         }
       />
 
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="stagger grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard
           tone="brand"
           icon={Wallet}
@@ -88,7 +88,7 @@ export async function ManagerDashboard({ user }: { user: CurrentUser }) {
         />
       </div>
 
-      <div className="grid gap-4 xl:grid-cols-[1.6fr_1fr]">
+      <div className="stagger grid gap-4 xl:grid-cols-[1.6fr_1fr]">
         <Card>
           <CardHeader>
             <div className="flex flex-col gap-1">

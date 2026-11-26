@@ -28,7 +28,7 @@ export default async function ManagerMaintenancePage() {
         title="Maintenance"
         description="Confirm the suggested category and priority, then assign a technician."
       />
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="stagger grid gap-4 sm:grid-cols-3">
         <StatCard tone="brand" icon={Inbox} label="Needs triage" value={toTriage.length} hint="Waiting for you." />
         <StatCard icon={Hammer} label="With staff" value={active.length} hint="Assigned or in progress." />
         <StatCard icon={CircleCheck} label="Closed" value={closed.length} hint="Done or cancelled." />

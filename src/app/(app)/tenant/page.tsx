@@ -164,7 +164,7 @@ export default async function TenantHomePage() {
         }
       />
 
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="stagger grid gap-4 sm:grid-cols-3">
         <StatCard
           tone="brand"
           icon={Wallet}

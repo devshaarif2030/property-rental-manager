@@ -95,13 +95,13 @@ export default function Home() {
       </header>
 
       <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-20 px-4 pb-16 sm:px-6">
-        <section className="bg-brand-gradient relative overflow-hidden rounded-[28px] px-6 py-12 text-white sm:px-12 sm:py-16">
+        <section className="bg-brand-gradient animate-fade-up relative overflow-hidden rounded-[28px] px-6 py-12 text-white sm:px-12 sm:py-16">
           <div
             aria-hidden
             className="pointer-events-none absolute -top-24 -right-24 size-96 rounded-full bg-brand-400/25 blur-3xl"
           />
           <div className="relative grid items-center gap-10 lg:grid-cols-[1.15fr_1fr]">
-            <div className="flex flex-col gap-6">
+            <div className="stagger flex flex-col gap-6">
               <span className="glass inline-flex w-fit items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium">
                 <Sparkles className="size-3.5" aria-hidden />
                 Portfolio build for a fictional property company
@@ -126,7 +126,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="glass flex flex-col gap-5 rounded-3xl p-6 sm:p-7">
+            <div className="glass animate-fade-up flex flex-col gap-5 rounded-3xl p-6 sm:p-7 [--delay:250ms]">
               <div className="flex flex-col gap-1.5">
                 <h2 className="text-xl font-semibold">Try the live demo</h2>
                 <p className="text-sm text-brand-100">
@@ -146,11 +146,11 @@ export default function Home() {
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-brand-600">Features by role</p>
             <h2 className="text-3xl font-bold sm:text-4xl">One system, four points of view</h2>
           </div>
-          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <ul className="stagger grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {FEATURES.map((feature) => (
               <li
                 key={feature.role}
-                className="flex flex-col gap-4 rounded-2xl border border-border/70 bg-card p-6 shadow-card"
+                className="hover-lift flex flex-col gap-4 rounded-2xl border border-border/70 bg-card p-6 shadow-card"
               >
                 <span
                   aria-hidden
@@ -187,7 +187,7 @@ export default function Home() {
               not, and nothing is acted on until the manager confirms.
             </p>
           </div>
-          <ol className="grid gap-4 sm:grid-cols-3">
+          <ol className="stagger grid gap-4 sm:grid-cols-3">
             {TRIAGE_STEPS.map((step, index) => (
               <li key={step.title} className="flex flex-col gap-3 rounded-2xl bg-background p-5">
                 <div className="flex items-center justify-between">

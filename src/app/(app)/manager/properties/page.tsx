@@ -38,14 +38,14 @@ export default async function PropertiesPage() {
           description="Add your first property to start adding units and leases."
         />
       ) : (
-        <ul className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        <ul className="stagger grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {properties.map((property) => {
             const occupancy = property.unitCount === 0 ? 0 : property.occupiedCount / property.unitCount;
             return (
               <li key={property.id}>
                 <Link
                   href={`/manager/properties/${property.id}`}
-                  className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border/70 bg-card shadow-card transition-shadow hover:shadow-lg"
+                  className="group hover-lift flex h-full flex-col overflow-hidden rounded-2xl border border-border/70 bg-card shadow-card hover:shadow-lg"
                 >
                   <div className="bg-brand-gradient relative flex h-28 items-end p-4">
                     <span className="glass flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold text-white">

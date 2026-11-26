@@ -18,14 +18,14 @@ export function AuthShell({ children }: { children: ReactNode }) {
         <Link href="/" className="w-fit">
           <Logo />
         </Link>
-        <div className="mx-auto flex w-full max-w-sm flex-1 flex-col justify-center gap-6 py-10">{children}</div>
+        <div className="stagger mx-auto flex w-full max-w-sm flex-1 flex-col justify-center gap-6 py-10">{children}</div>
       </main>
       <aside className="bg-brand-gradient relative hidden overflow-hidden rounded-[28px] p-10 text-white lg:flex lg:flex-col lg:justify-center">
         <div
           aria-hidden
           className="pointer-events-none absolute -top-20 -left-20 size-80 rounded-full bg-brand-400/25 blur-3xl"
         />
-        <div className="glass relative flex flex-col gap-5 rounded-3xl p-7">
+        <div className="glass animate-fade-up relative flex flex-col gap-5 rounded-3xl p-7 [--delay:150ms]">
           <p className="text-2xl leading-snug font-bold">Rent, leases and repairs for a small property team.</p>
           <ul className="flex flex-col gap-4">
             {HIGHLIGHTS.map((item) => (

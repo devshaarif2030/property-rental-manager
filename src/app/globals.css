@@ -159,3 +159,85 @@
     transparent 2px 7px
   );
 }
+
+/* Motion: short, subtle entrances. Off for people who ask for reduced motion. */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes grow-up {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@layer components {
+  .animate-fade-up {
+    animation: fade-up 0.6s cubic-bezier(0.22, 0.8, 0.3, 1) both;
+    animation-delay: var(--delay, 0ms);
+  }
+
+  .animate-grow-up {
+    animation: grow-up 0.8s cubic-bezier(0.22, 0.8, 0.3, 1) 0.3s both;
+  }
+
+  /* Each direct child fades up a little after the one before it. */
+  .stagger > *,
+  .stagger-page > * > * {
+    animation: fade-up 0.6s cubic-bezier(0.22, 0.8, 0.3, 1) both;
+  }
+  .stagger > :nth-child(2),
+  .stagger-page > * > :nth-child(2) {
+    animation-delay: 70ms;
+  }
+  .stagger > :nth-child(3),
+  .stagger-page > * > :nth-child(3) {
+    animation-delay: 140ms;
+  }
+  .stagger > :nth-child(4),
+  .stagger-page > * > :nth-child(4) {
+    animation-delay: 210ms;
+  }
+  .stagger > :nth-child(5),
+  .stagger-page > * > :nth-child(5) {
+    animation-delay: 280ms;
+  }
+  .stagger > :nth-child(n + 6),
+  .stagger-page > * > :nth-child(n + 6) {
+    animation-delay: 350ms;
+  }
+
+  /* Cards that link somewhere lift slightly on hover. */
+  .hover-lift {
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+  .hover-lift:hover {
+    transform: translateY(-2px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-up,
+  .animate-grow-up,
+  .stagger > *,
+  .stagger-page > * > * {
+    animation: none;
+  }
+  .hover-lift,
+  .hover-lift:hover {
+    transform: none;
+    transition: none;
+  }
+}

@@ -14,7 +14,8 @@ async function capture(page: Page, name: string, fullPage = true) {
 }
 
 test.describe("@screenshots", () => {
-  test.use({ viewport: DESKTOP, deviceScaleFactor: 2 });
+  // Reduced motion captures each page in its final state, not mid-animation.
+  test.use({ viewport: DESKTOP, deviceScaleFactor: 2, contextOptions: { reducedMotion: "reduce" } });
 
   test("public pages", async ({ page }) => {
     await page.goto("/");
