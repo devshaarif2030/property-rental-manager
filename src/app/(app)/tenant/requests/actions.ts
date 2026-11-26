@@ -53,11 +53,7 @@ export async function createMaintenanceRequest(formData: FormData): Promise<Form
     .single();
   if (insertError) return FAILED;
 
-  // The first timeline entry. The request itself is already saved, so a
-  // failure here is not worth failing the whole report over.
-  await supabase
-    .from("request_updates")
-    .insert({ org_id: user.orgId, request_id: request.id, author_id: user.id, status: "open" });
+  // A trigger writes the "Open" timeline entry.
 
   const storage = supabase.storage.from(REQUEST_PHOTOS_BUCKET);
   let photosSaved = true;

@@ -59,10 +59,10 @@ select throws_ok(
      values ('00000000-0001-0000-0000-00000000000a', '00000000-0004-0000-0000-0000000000a1',
              '00000000-0002-0000-0000-0000000000a2', 'Self triage', 'Should fail.', 'emergency') $$,
   '42501', null, 'tenant cannot set the confirmed priority');
-select is_empty(
+select throws_ok(
   $$ update public.maintenance_requests set status = 'done'
-     where id = '00000000-0008-0000-0000-0000000000a1' returning id $$,
-  'tenant cannot change request status directly');
+     where id = '00000000-0008-0000-0000-0000000000a1' $$,
+  '42501', null, 'tenant cannot change request status directly');
 select throws_ok(
   $$ insert into public.request_photos (org_id, request_id, storage_path, uploaded_by)
      values ('00000000-0001-0000-0000-00000000000a', '00000000-0008-0000-0000-0000000000a2',

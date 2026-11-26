@@ -114,6 +114,8 @@ insert into public.payments (id, org_id, rent_charge_id, amount_cents, stripe_se
   ('00000000-0007-0000-0000-0000000000b1', '00000000-0001-0000-0000-00000000000b',
    '00000000-0006-0000-0000-0000000000b1', 180000, 'cs_test_b1', 'succeeded', now());
 
+-- The fixture writes its own timeline rows, so skip the automatic "Open" entry.
+alter table public.maintenance_requests disable trigger maintenance_requests_log_opened;
 insert into public.maintenance_requests (id, org_id, unit_id, tenant_id, title, description, status, assigned_to) values
   ('00000000-0008-0000-0000-0000000000a1', '00000000-0001-0000-0000-00000000000a',
    '00000000-0004-0000-0000-0000000000a1', '00000000-0002-0000-0000-0000000000a2',
@@ -124,6 +126,7 @@ insert into public.maintenance_requests (id, org_id, unit_id, tenant_id, title, 
   ('00000000-0008-0000-0000-0000000000b1', '00000000-0001-0000-0000-00000000000b',
    '00000000-0004-0000-0000-0000000000b1', '00000000-0002-0000-0000-0000000000b2',
    'Window stuck', 'Bedroom window will not open.', 'open', null);
+alter table public.maintenance_requests enable trigger maintenance_requests_log_opened;
 
 insert into public.request_photos (id, org_id, request_id, storage_path, uploaded_by) values
   ('00000000-0009-0000-0000-0000000000a1', '00000000-0001-0000-0000-00000000000a',

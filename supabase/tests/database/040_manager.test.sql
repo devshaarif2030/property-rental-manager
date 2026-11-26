@@ -30,11 +30,10 @@ select throws_ok(
      values ('00000000-0001-0000-0000-00000000000a', '00000000-0004-0000-0000-0000000000a1',
              '00000000-0002-0000-0000-0000000000a3', '2026-12-01', 90000, 1) $$,
   '23505', null, 'a unit cannot have two active leases');
-select results_eq(
-  $$ update public.maintenance_requests
-     set category = 'plumbing', priority = 'high', assigned_to = '00000000-0002-0000-0000-0000000000a5'
-     where id = '00000000-0008-0000-0000-0000000000a1' returning assigned_to $$,
-  $$ values ('00000000-0002-0000-0000-0000000000a5'::uuid) $$,
+select is(
+  public.triage_request('00000000-0008-0000-0000-0000000000a1', 'plumbing', 'high',
+                        '00000000-0002-0000-0000-0000000000a5'),
+  'assigned'::public.request_status,
   'manager can confirm triage and reassign a request');
 
 select lives_ok(

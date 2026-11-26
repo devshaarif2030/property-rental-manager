@@ -1,7 +1,8 @@
 import { formatIsoDate } from "@/lib/dates";
 import type { RequestDetail } from "@/lib/maintenance/queries";
-import { STATUS_LABELS } from "@/lib/maintenance/requests";
+import { CATEGORY_LABELS, STATUS_LABELS } from "@/lib/maintenance/requests";
 
+import { PriorityBadge } from "./priority-badge";
 import { StatusBadge } from "./status-badge";
 
 const timeFormat = new Intl.DateTimeFormat("en-GB", { dateStyle: "medium", timeStyle: "short", timeZone: "UTC" });
@@ -18,6 +19,10 @@ export function RequestDetailView({ request, unknownAuthor }: { request: Request
         <div className="flex flex-wrap items-center gap-3">
           <h1 className="text-2xl font-semibold tracking-tight">{request.title}</h1>
           <StatusBadge status={request.status} />
+          {request.priority && <PriorityBadge priority={request.priority} />}
+          {request.category && (
+            <span className="text-sm text-muted-foreground">{CATEGORY_LABELS[request.category]}</span>
+          )}
         </div>
         <p className="max-w-2xl whitespace-pre-line">{request.description}</p>
       </div>

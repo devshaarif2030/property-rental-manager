@@ -53,6 +53,7 @@ export type RequestUpdate = {
 };
 
 export type RequestDetail = RequestSummary & {
+  assignedTo: string | null;
   description: string;
   aiCategory: RequestCategory | null;
   aiPriority: RequestPriority | null;
@@ -66,7 +67,7 @@ export async function getRequestDetail(supabase: Client, requestId: string): Pro
   const { data, error } = await supabase
     .from("maintenance_requests")
     .select(
-      `id, title, description, status, category, priority, ai_category, ai_priority, ai_reason, created_at,
+      `id, title, description, status, category, priority, assigned_to, ai_category, ai_priority, ai_reason, created_at,
        units(label, properties(name)),
        tenant:profiles!maintenance_requests_org_id_tenant_id_fkey(full_name),
        request_photos(id, storage_path, created_at),
@@ -110,6 +111,7 @@ export async function getRequestDetail(supabase: Client, requestId: string): Pro
     status: data.status,
     category: data.category,
     priority: data.priority,
+    assignedTo: data.assigned_to,
     aiCategory: data.ai_category,
     aiPriority: data.ai_priority,
     aiReason: data.ai_reason,
@@ -120,4 +122,18 @@ export async function getRequestDetail(supabase: Client, requestId: string): Pro
     photos,
     updates,
   };
+}
+
+export type StaffMember = { id: string; fullName: string };
+
+/** Staff in the caller's org, for the assignee picker. Managers can read org profiles. */
+export async function listStaff(supabase: Client, orgId: string): Promise<StaffMember[]> {
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("id, full_name")
+    .eq("org_id", orgId)
+    .eq("role", "staff")
+    .order("full_name");
+  if (error) throw error;
+  return data.map((profile) => ({ id: profile.id, fullName: profile.full_name }));
 }
