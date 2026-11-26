@@ -60,9 +60,10 @@ export async function ManagerDashboard({ user }: { user: CurrentUser }) {
         }
       />
 
-      <div className="stagger grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="stagger grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-4">
         <StatCard
           tone="brand"
+          className="col-span-2 xl:col-span-1"
           icon={Wallet}
           label={`Collected in ${formatIsoMonth(thisMonth.month).split(" ")[0]}`}
           value={formatCents(thisMonth.collectedCents, currency)}

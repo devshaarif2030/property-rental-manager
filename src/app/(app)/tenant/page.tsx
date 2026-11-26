@@ -164,9 +164,10 @@ export default async function TenantHomePage() {
         }
       />
 
-      <div className="stagger grid gap-4 sm:grid-cols-3">
+      <div className="stagger grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
         <StatCard
           tone="brand"
+          className="col-span-2 sm:col-span-1"
           icon={Wallet}
           label="Rent to pay"
           value={formatCents(amountToPayCents, currency)}
