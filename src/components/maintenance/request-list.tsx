@@ -3,6 +3,7 @@ import Link from "next/link";
 import { formatIsoDate } from "@/lib/dates";
 import type { RequestSummary } from "@/lib/maintenance/queries";
 
+import { PriorityBadge } from "./priority-badge";
 import { StatusBadge } from "./status-badge";
 
 type RequestListProps = {
@@ -27,7 +28,10 @@ export function RequestList({ requests, hrefFor, empty }: RequestListProps) {
                 {request.propertyName}, {request.unitLabel} · reported {formatIsoDate(request.createdAt.slice(0, 10))}
               </span>
             </span>
-            <StatusBadge status={request.status} />
+            <span className="flex items-center gap-2">
+              {request.priority && <PriorityBadge priority={request.priority} />}
+              <StatusBadge status={request.status} />
+            </span>
           </Link>
         </li>
       ))}

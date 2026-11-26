@@ -22,6 +22,9 @@ export async function UserMenu() {
           <Link href="/manager/properties" className="text-muted-foreground hover:text-foreground">
             Properties
           </Link>
+          <Link href="/manager/maintenance" className="text-muted-foreground hover:text-foreground">
+            Maintenance
+          </Link>
           <Link href="/manager/people" className="text-muted-foreground hover:text-foreground">
             People
           </Link>

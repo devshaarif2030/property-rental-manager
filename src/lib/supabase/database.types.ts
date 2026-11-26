@@ -385,6 +385,12 @@ isOneToOne: false
                            },
 "record_rent_payment":
 { Args: { "p_amount_cents": number,"p_currency": string,"p_payment_intent": string,"p_session_id": string }; Returns: boolean
+                           },
+"triage_request":
+{ Args: { "p_assigned_to"?: string,"p_category": Database["public"]['Enums']["request_category"],"p_priority": Database["public"]['Enums']["request_priority"],"p_request_id": string }; Returns: Database["public"]['Enums']["request_status"]
+                           },
+"update_job_status":
+{ Args: { "p_note"?: string,"p_request_id": string,"p_status": Database["public"]['Enums']["request_status"] }; Returns: undefined
                            }
           }
           Enums: {

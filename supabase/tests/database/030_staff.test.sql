@@ -24,19 +24,19 @@ select is_empty('select id from public.payments', 'staff cannot read payments');
 select is_empty('select id from public.invites', 'staff cannot read invites');
 
 select lives_ok(
-  $$ insert into public.request_updates (org_id, request_id, author_id, status, note)
+  $$ insert into public.request_updates (org_id, request_id, author_id, note)
      values ('00000000-0001-0000-0000-00000000000a', '00000000-0008-0000-0000-0000000000a1',
-             '00000000-0002-0000-0000-0000000000a4', 'in_progress', 'On my way') $$,
-  'staff can post an update on an assigned job');
+             '00000000-0002-0000-0000-0000000000a4', 'On my way') $$,
+  'staff can post a note on an assigned job');
 select throws_ok(
   $$ insert into public.request_updates (org_id, request_id, author_id, note)
      values ('00000000-0001-0000-0000-00000000000a', '00000000-0008-0000-0000-0000000000a2',
              '00000000-0002-0000-0000-0000000000a4', 'Not my job') $$,
   '42501', null, 'staff cannot post on a job assigned to someone else');
-select is_empty(
+select throws_ok(
   $$ update public.maintenance_requests set assigned_to = '00000000-0002-0000-0000-0000000000a4'
-     where id = '00000000-0008-0000-0000-0000000000a2' returning id $$,
-  'staff cannot reassign jobs');
+     where id = '00000000-0008-0000-0000-0000000000a2' $$,
+  '42501', null, 'staff cannot reassign jobs');
 
 select * from finish();
 rollback;

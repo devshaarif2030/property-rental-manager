@@ -39,3 +39,24 @@ export const newRequestSchema = z.object({
 });
 
 export type NewRequestInput = z.input<typeof newRequestSchema>;
+
+export const REQUEST_CATEGORIES = Object.keys(CATEGORY_LABELS) as RequestCategory[];
+export const REQUEST_PRIORITIES = Object.keys(PRIORITY_LABELS) as RequestPriority[];
+
+/** A manager confirms category and priority and picks a staff member, or nobody. */
+export const triageSchema = z.object({
+  category: z.enum(REQUEST_CATEGORIES, { error: "Choose a category." }),
+  priority: z.enum(REQUEST_PRIORITIES, { error: "Choose a priority." }),
+  assignedTo: z.union([z.guid(), z.literal("")]).transform((value) => (value === "" ? null : value)),
+});
+
+export type TriageInput = z.input<typeof triageSchema>;
+export type TriageOutput = z.output<typeof triageSchema>;
+
+/** The only moves staff can make; the database enforces the order. */
+export const jobStatusSchema = z.object({
+  status: z.enum(["in_progress", "done"]),
+  note: z.string().trim().max(2000, { error: "Keep the note under 2000 characters." }),
+});
+
+export type JobStatusInput = z.input<typeof jobStatusSchema>;
