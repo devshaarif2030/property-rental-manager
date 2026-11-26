@@ -17,6 +17,7 @@ import { createClient } from "@/lib/supabase/server";
 
 const PEOPLE_PATH = "/manager/people";
 const UNIQUE_VIOLATION = "23505";
+const RLS_VIOLATION = "42501";
 
 export async function createInvite(input: CreateInviteInput): Promise<CreateInviteResult> {
   const user = await requireRole(["admin", "manager"], PEOPLE_PATH);
@@ -46,6 +47,10 @@ export async function createInvite(input: CreateInviteInput): Promise<CreateInvi
 
   if (error?.code === UNIQUE_VIOLATION) {
     return { ok: false, error: "That email already has a pending invite. Revoke it first." };
+  }
+  // Role and org are checked above, so RLS only refuses the shared demo accounts.
+  if (error?.code === RLS_VIOLATION) {
+    return { ok: false, error: "Invites are turned off for demo accounts." };
   }
   if (error) return { ok: false, error: "Could not create the invite. Try again." };
 

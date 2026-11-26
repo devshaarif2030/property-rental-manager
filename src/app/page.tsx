@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { DemoLoginButtons } from "@/components/demo-login-buttons";
 import { Button } from "@/components/ui/button";
 import { SIGN_IN_PATH } from "@/lib/auth/paths";
 
@@ -13,8 +14,14 @@ export default function Home() {
         Rent, leases and repairs for a property management company, in one place. Built for a
         fictional client as a portfolio project.
       </p>
+      <div className="flex flex-col gap-2">
+        <p className="text-sm text-muted-foreground">
+          Try it without signing up. Fictional data, Stripe test mode, reset every night.
+        </p>
+        <DemoLoginButtons />
+      </div>
       <div className="flex flex-wrap gap-3">
-        <Button asChild>
+        <Button asChild variant="outline">
           <Link href={SIGN_IN_PATH}>Sign in</Link>
         </Button>
         <Button asChild variant="outline">

@@ -36,3 +36,9 @@ from demo_users;
 insert into public.profiles (id, org_id, role, full_name)
 select id, '10000000-0000-0000-0000-000000000001', role, full_name
 from demo_users;
+
+-- Demo login buttons sign in as these accounts.
+insert into private.demo_accounts (role, user_id) values
+  ('manager', '10000000-0000-0000-0000-0000000000a2'),
+  ('tenant', '10000000-0000-0000-0000-0000000000a3'),
+  ('staff', '10000000-0000-0000-0000-0000000000a4');
