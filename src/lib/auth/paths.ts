@@ -15,7 +15,15 @@ const HOME_PATH_BY_ROLE: Record<UserRole, string> = {
 /** Lease documents are served to managers and tenants alike, so they sit outside any role home. */
 export const LEASES_PATH = "/leases";
 
-const PROTECTED_PREFIXES = [DASHBOARD_PATH, LEASES_PATH, ...Object.values(HOME_PATH_BY_ROLE)];
+/** Every role has a notifications list. */
+export const NOTIFICATIONS_PATH = "/notifications";
+
+const PROTECTED_PREFIXES = [
+  DASHBOARD_PATH,
+  LEASES_PATH,
+  NOTIFICATIONS_PATH,
+  ...Object.values(HOME_PATH_BY_ROLE),
+];
 
 export function homePathForRole(role: UserRole): string {
   return HOME_PATH_BY_ROLE[role];

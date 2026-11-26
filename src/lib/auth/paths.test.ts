@@ -12,7 +12,7 @@ describe("homePathForRole", () => {
 });
 
 describe("isProtectedPath", () => {
-  it.each(["/dashboard", "/admin", "/manager/properties", "/tenant", "/staff/jobs/1", "/leases/1/document"])(
+  it.each(["/dashboard", "/admin", "/manager/properties", "/tenant", "/staff/jobs/1", "/leases/1/document", "/notifications"])(
     "protects %s",
     (path) => expect(isProtectedPath(path)).toBe(true),
   );
