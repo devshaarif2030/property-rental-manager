@@ -1,6 +1,9 @@
+import { CircleCheck, Hammer, Inbox } from "lucide-react";
 import type { Metadata } from "next";
 
 import { RequestList } from "@/components/maintenance/request-list";
+import { PageHeader } from "@/components/page-header";
+import { StatCard } from "@/components/stat-card";
 import { requireRole } from "@/lib/auth/session";
 import { listRequests } from "@/lib/maintenance/queries";
 import { createClient } from "@/lib/supabase/server";
@@ -20,9 +23,15 @@ export default async function ManagerMaintenancePage() {
 
   return (
     <div className="flex flex-col gap-8">
-      <div>
-        <p className="text-sm text-muted-foreground">Property manager</p>
-        <h1 className="text-2xl font-semibold tracking-tight">Maintenance</h1>
+      <PageHeader
+        eyebrow="Property manager"
+        title="Maintenance"
+        description="Confirm the suggested category and priority, then assign a technician."
+      />
+      <div className="grid gap-4 sm:grid-cols-3">
+        <StatCard tone="brand" icon={Inbox} label="Needs triage" value={toTriage.length} hint="Waiting for you." />
+        <StatCard icon={Hammer} label="With staff" value={active.length} hint="Assigned or in progress." />
+        <StatCard icon={CircleCheck} label="Closed" value={closed.length} hint="Done or cancelled." />
       </div>
       <section className="flex flex-col gap-3">
         <h2 className="text-lg font-semibold">Needs triage</h2>

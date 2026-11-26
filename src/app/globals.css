@@ -6,8 +6,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-jakarta);
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
@@ -24,53 +24,115 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-brand-950: var(--brand-950);
+  --color-brand-900: var(--brand-900);
+  --color-brand-800: var(--brand-800);
+  --color-brand-600: var(--brand-600);
+  --color-brand-400: var(--brand-400);
+  --color-brand-100: var(--brand-100);
+  --color-brand-50: var(--brand-50);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-info: var(--info);
+  --color-info-soft: var(--info-soft);
+  --color-danger-soft: var(--danger-soft);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  /* Design system. Warm light surfaces, deep emerald brand, one sans family. */
+  --radius: 1rem;
+  --background: #f2f3f0;
+  --foreground: #0e1a15;
+  --card: #ffffff;
+  --card-foreground: #0e1a15;
+  --popover: #ffffff;
+  --popover-foreground: #0e1a15;
+  --primary: #12543d;
+  --primary-foreground: #ffffff;
+  --secondary: #eceee9;
+  --secondary-foreground: #0e1a15;
+  --muted: #eceee9;
+  --muted-foreground: #5f6a64;
+  --accent: #e4f2ea;
+  --accent-foreground: #0b3b2c;
+  --destructive: #c8321f;
+  --border: #e2e5df;
+  --input: #dde1da;
+  --ring: #1f7a55;
+
+  /* Brand scale, darkest to lightest. Gradients use the 950 to 600 range. */
+  --brand-950: #06261b;
+  --brand-900: #0b3b2c;
+  --brand-800: #12543d;
+  --brand-600: #1f7a55;
+  --brand-400: #4fb386;
+  --brand-100: #d7eee1;
+  --brand-50: #eef7f2;
+
+  --warning: #b45309;
+  --warning-soft: #fdf3e2;
+  --info: #1d5f8c;
+  --info-soft: #e6f0f7;
+  --danger-soft: #fcebe8;
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
+  --background: #08130f;
+  --foreground: #eef3f0;
+  --card: #0f1d17;
+  --card-foreground: #eef3f0;
+  --popover: #0f1d17;
+  --popover-foreground: #eef3f0;
+  --primary: #4fb386;
+  --primary-foreground: #06261b;
+  --secondary: #172720;
+  --secondary-foreground: #eef3f0;
+  --muted: #172720;
+  --muted-foreground: #9aa8a0;
+  --accent: #173528;
+  --accent-foreground: #d7eee1;
+  --destructive: #f07a66;
+  --border: rgb(255 255 255 / 10%);
+  --input: rgb(255 255 255 / 14%);
+  --ring: #4fb386;
+}
+
+@utility bg-brand-gradient {
+  background-color: var(--brand-900);
+  background-image:
+    radial-gradient(120% 90% at 100% 0%, rgb(79 179 134 / 35%) 0%, transparent 55%),
+    radial-gradient(80% 80% at 0% 100%, rgb(6 38 27 / 90%) 0%, transparent 60%),
+    linear-gradient(135deg, var(--brand-950) 0%, var(--brand-900) 45%, var(--brand-600) 100%);
+}
+
+/* Frosted panel for use on the brand gradient. */
+@utility glass {
+  background-color: rgb(255 255 255 / 8%);
+  border: 1px solid rgb(255 255 255 / 16%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 14%),
+    0 12px 40px -12px rgb(0 0 0 / 35%);
+  backdrop-filter: blur(18px) saturate(140%);
+}
+
+/* Frosted panel for use on light surfaces. */
+@utility glass-light {
+  background-color: rgb(255 255 255 / 72%);
+  border: 1px solid rgb(255 255 255 / 80%);
+  box-shadow: 0 10px 30px -12px rgb(14 26 21 / 18%);
+  backdrop-filter: blur(16px) saturate(150%);
+}
+
+/* Soft card shadow used across the app. */
+@utility shadow-card {
+  box-shadow:
+    0 1px 2px rgb(14 26 21 / 4%),
+    0 8px 24px -12px rgb(14 26 21 / 10%);
 }
 
 @layer base {
@@ -79,5 +141,21 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: "ss01", "cv11";
   }
+  h1,
+  h2,
+  h3 {
+    @apply tracking-tight;
+  }
+}
+
+/* Diagonal hatch for "planned" or "billed" amounts in charts. */
+@utility bg-hatched {
+  background-color: var(--muted);
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgb(14 26 21 / 14%) 0 2px,
+    transparent 2px 7px
+  );
 }

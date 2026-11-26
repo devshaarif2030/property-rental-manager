@@ -1,3 +1,7 @@
+import { BellOff, CheckCheck } from "lucide-react";
+
+import { EmptyState } from "@/components/empty-state";
+import { PageHeader } from "@/components/page-header";
 import { Button } from "@/components/ui/button";
 import { NOTIFICATIONS_PATH } from "@/lib/auth/paths";
 import { requireUser } from "@/lib/auth/session";
@@ -16,30 +20,31 @@ export default async function NotificationsPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Notifications</h1>
-          <p className="text-muted-foreground">{unread === 0 ? "You are all caught up." : `${unread} unread`}</p>
-        </div>
-        {unread > 0 && (
-          <form action={markAllNotificationsRead}>
-            <Button type="submit" variant="outline" size="sm">
-              Mark all as read
-            </Button>
-          </form>
-        )}
-      </div>
+      <PageHeader
+        title="Notifications"
+        description={unread === 0 ? "You are all caught up." : `${unread} unread`}
+        actions={
+          unread > 0 && (
+            <form action={markAllNotificationsRead}>
+              <Button type="submit" variant="outline" size="sm">
+                <CheckCheck aria-hidden />
+                Mark all as read
+              </Button>
+            </form>
+          )
+        }
+      />
 
       {notifications.length === 0 ? (
-        <p className="text-sm text-muted-foreground">Nothing here yet.</p>
+        <EmptyState icon={BellOff} title="Nothing here yet" description="Updates on rent and repairs show up here." />
       ) : (
-        <ul className="divide-y rounded-md border">
+        <ul className="divide-y divide-border/70 overflow-hidden rounded-2xl border border-border/70 bg-card shadow-card">
           {notifications.map((notification) => (
             <li key={notification.id}>
               <form action={openNotification.bind(null, notification.id)}>
                 <button
                   type="submit"
-                  className="flex w-full items-start gap-3 px-4 py-3 text-left text-sm hover:bg-muted/50"
+                  className="flex w-full items-start gap-3 px-5 py-4 text-left text-sm hover:bg-accent/50"
                 >
                   <span
                     aria-hidden

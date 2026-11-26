@@ -21,7 +21,7 @@ export function JobStatusForm({ requestId, nextStatus }: { requestId: string; ne
 
   return (
     <form
-      className="flex max-w-xl flex-col gap-3 rounded-md border p-4"
+      className="flex max-w-xl flex-col gap-3 rounded-2xl border border-border/70 bg-card shadow-card p-5"
       onSubmit={(event) => {
         event.preventDefault();
         setError(null);

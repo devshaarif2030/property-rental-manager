@@ -62,7 +62,7 @@ export function InviteForm({ invitableRoles }: InviteFormProps) {
           <Label htmlFor="invite-role">Role</Label>
           <select
             id="invite-role"
-            className="h-9 rounded-md border border-input bg-transparent px-3 text-sm shadow-xs"
+            className="h-11 rounded-xl border border-input bg-card px-3 text-sm"
             {...form.register("role")}
           >
             {invitableRoles.map((role) => (
@@ -83,7 +83,7 @@ export function InviteForm({ invitableRoles }: InviteFormProps) {
         </p>
       )}
       {result?.ok && (
-        <div role="status" className="flex flex-col gap-2 rounded-md border p-4 text-sm">
+        <div role="status" className="flex flex-col gap-2 rounded-2xl border border-border/70 bg-card shadow-card p-5 text-sm">
           <p>
             Invite created for <span className="font-medium">{result.email}</span>. Send them this
             link. It works once and expires in {INVITE_TTL_DAYS} days.

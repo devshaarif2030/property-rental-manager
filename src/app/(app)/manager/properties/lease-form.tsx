@@ -20,7 +20,7 @@ import {
 
 import { createLease, updateLease } from "./lease-actions";
 
-const SELECT_CLASS = "h-9 rounded-md border border-input bg-transparent px-3 text-sm shadow-xs";
+const SELECT_CLASS = "h-11 rounded-xl border border-input bg-card px-3 text-sm";
 
 type TermsField = "rent" | "deposit" | "dueDay" | "endDate";
 

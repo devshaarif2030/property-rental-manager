@@ -29,10 +29,10 @@ export default async function PropertyPage({ params }: PageProps<"/manager/prope
     <div className="flex flex-col gap-8">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <Link href="/manager/properties" className="text-sm text-muted-foreground hover:text-foreground">
-            Properties
+          <Link href="/manager/properties" className="text-sm font-medium text-brand-600 hover:text-brand-900">
+            ← Properties
           </Link>
-          <h1 className="text-2xl font-semibold tracking-tight">{property.name}</h1>
+          <h1 className="text-3xl font-bold">{property.name}</h1>
           <p className="text-muted-foreground">
             {property.addressLine}, {property.city} {property.postcode},{" "}
             {COUNTRIES[property.country as keyof typeof COUNTRIES]}
@@ -55,11 +55,11 @@ export default async function PropertyPage({ params }: PageProps<"/manager/prope
         </div>
 
         {property.units.length === 0 ? (
-          <p className="rounded-md border border-dashed p-8 text-center text-sm text-muted-foreground">
+          <p className="rounded-2xl border border-dashed bg-card/60 p-8 text-center text-sm text-muted-foreground">
             No units yet.
           </p>
         ) : (
-          <div className="overflow-x-auto rounded-md border">
+          <div className="overflow-x-auto rounded-2xl border border-border/70 bg-card shadow-card">
             <table className="w-full text-sm">
               <thead className="bg-muted text-left text-muted-foreground">
                 <tr>
@@ -76,18 +76,18 @@ export default async function PropertyPage({ params }: PageProps<"/manager/prope
               <tbody className="divide-y">
                 {property.units.map((unit) => (
                   <tr key={unit.id}>
-                    <td className="px-4 py-3 font-medium">
+                    <td className="px-5 py-4 font-medium">
                       <Link href={`${basePath}/units/${unit.id}`} className="underline-offset-4 hover:underline">
                         {unit.label}
                       </Link>
                     </td>
-                    <td className="px-4 py-3">
+                    <td className="px-5 py-4">
                       {unit.bedrooms} / {unit.bathrooms}
                     </td>
-                    <td className="px-4 py-3">{formatCents(unit.rentAmountCents, currency)}</td>
-                    <td className="px-4 py-3 capitalize">{unit.status}</td>
-                    <td className="px-4 py-3">{unit.currentTenantName ?? "None"}</td>
-                    <td className="px-4 py-3">
+                    <td className="px-5 py-4">{formatCents(unit.rentAmountCents, currency)}</td>
+                    <td className="px-5 py-4 capitalize">{unit.status}</td>
+                    <td className="px-5 py-4">{unit.currentTenantName ?? "None"}</td>
+                    <td className="px-5 py-4">
                       <div className="flex justify-end gap-2">
                         <Button asChild variant="ghost" size="sm">
                           <Link href={`${basePath}/units/${unit.id}/edit`}>Edit</Link>

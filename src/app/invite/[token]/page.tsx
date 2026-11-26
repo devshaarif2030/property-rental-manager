@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
 
+import { AuthShell } from "@/components/layout/auth-shell";
 import { SIGN_IN_PATH } from "@/lib/auth/paths";
 import { ROLE_LABELS } from "@/lib/auth/roles";
 import { acceptInviteSchema } from "@/lib/invites/schemas";
@@ -17,11 +18,11 @@ export const metadata: Metadata = {
 
 export default function InvitePage({ params }: PageProps<"/invite/[token]">) {
   return (
-    <main className="mx-auto flex w-full max-w-sm flex-1 flex-col justify-center gap-6 px-6 py-16">
+    <AuthShell>
       <Suspense fallback={<p className="text-sm text-muted-foreground">Checking your invite...</p>}>
         <InviteDetails params={params} />
       </Suspense>
-    </main>
+    </AuthShell>
   );
 }
 
@@ -33,7 +34,7 @@ async function InviteDetails({ params }: Pick<PageProps<"/invite/[token]">, "par
   if (!invite) {
     return (
       <div className="flex flex-col gap-2">
-        <h1 className="text-2xl font-semibold tracking-tight">Invite not valid</h1>
+        <h1 className="text-3xl font-bold">Invite not valid</h1>
         <p className="text-sm text-muted-foreground">
           This link has expired, was revoked or was already used. Ask your property manager for a
           new invite, or <Link href={SIGN_IN_PATH} className="underline">sign in</Link> if you
@@ -46,7 +47,7 @@ async function InviteDetails({ params }: Pick<PageProps<"/invite/[token]">, "par
   return (
     <>
       <div className="flex flex-col gap-2">
-        <h1 className="text-2xl font-semibold tracking-tight">Join {invite.organizationName}</h1>
+        <h1 className="text-3xl font-bold">Join {invite.organizationName}</h1>
         <p className="text-sm text-muted-foreground">
           You are invited as <span className="font-medium text-foreground">{ROLE_LABELS[invite.role]}</span>.
           Set your name and password to finish.

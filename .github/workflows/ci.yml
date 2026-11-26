@@ -57,3 +57,34 @@ jobs:
           export NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=$(echo "$status" | jq -r '.PUBLISHABLE_KEY // .ANON_KEY')
           export SUPABASE_SECRET_KEY=$(echo "$status" | jq -r '.SECRET_KEY // .SERVICE_ROLE_KEY')
           pnpm test:integration
+
+  screenshots:
+    name: Screenshots of the demo
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Start local Supabase and load the demo data
+        run: |
+          pnpm exec supabase start -x studio,imgproxy,realtime,edge-runtime,logflare,vector,supavisor
+          status=$(pnpm exec supabase status -o json)
+          psql "$(echo "$status" | jq -r '.DB_URL')" -c "select private.reset_demo_data();"
+          {
+            echo "NEXT_PUBLIC_SUPABASE_URL=$(echo "$status" | jq -r '.API_URL')"
+            echo "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=$(echo "$status" | jq -r '.PUBLISHABLE_KEY // .ANON_KEY')"
+            echo "SUPABASE_SECRET_KEY=$(echo "$status" | jq -r '.SECRET_KEY // .SERVICE_ROLE_KEY')"
+          } >> "$GITHUB_ENV"
+      - run: pnpm build
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm screenshots
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: screenshots
+          path: screenshots/
+          retention-days: 14

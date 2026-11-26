@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
 
+import { MailOpen } from "lucide-react";
+
+import { EmptyState } from "@/components/empty-state";
+import { PageHeader } from "@/components/page-header";
 import { Button } from "@/components/ui/button";
 import { ROLE_LABELS } from "@/lib/auth/roles";
 import { requireRole } from "@/lib/auth/session";
+import { initials } from "@/lib/names";
 import { rolesInvitableBy } from "@/lib/invites/schemas";
 import { createClient } from "@/lib/supabase/server";
 
@@ -31,19 +36,23 @@ export default async function PeoplePage() {
 
   return (
     <div className="flex flex-col gap-10">
-      <section className="flex flex-col gap-4">
-        <h1 className="text-2xl font-semibold tracking-tight">People</h1>
+      <section className="flex flex-col gap-6">
+        <PageHeader
+          eyebrow="Property manager"
+          title="People"
+          description="Invite tenants and maintenance staff. Accounts are invite only."
+        />
         <InviteForm invitableRoles={rolesInvitableBy(user.role)} />
       </section>
 
       <section className="flex flex-col gap-3">
         <h2 className="text-lg font-semibold">Pending invites</h2>
         {invites.data.length === 0 ? (
-          <p className="text-sm text-muted-foreground">No pending invites.</p>
+          <EmptyState icon={MailOpen} title="No pending invites" description="Invites you send show here until accepted." />
         ) : (
-          <ul className="divide-y rounded-md border">
+          <ul className="divide-y divide-border/70 overflow-hidden rounded-2xl border border-border/70 bg-card shadow-card">
             {invites.data.map((invite) => (
-              <li key={invite.id} className="flex items-center justify-between gap-4 px-4 py-3 text-sm">
+              <li key={invite.id} className="flex items-center justify-between gap-4 px-5 py-4 text-sm">
                 <div>
                   <p className="font-medium">{invite.email}</p>
                   <p className="text-muted-foreground">
@@ -67,11 +76,21 @@ export default async function PeoplePage() {
 
       <section className="flex flex-col gap-3">
         <h2 className="text-lg font-semibold">Members</h2>
-        <ul className="divide-y rounded-md border">
+        <ul className="divide-y divide-border/70 overflow-hidden rounded-2xl border border-border/70 bg-card shadow-card">
           {members.data.map((member) => (
-            <li key={member.id} className="flex items-center justify-between px-4 py-3 text-sm">
-              <span className="font-medium">{member.full_name}</span>
-              <span className="text-muted-foreground">{ROLE_LABELS[member.role]}</span>
+            <li key={member.id} className="flex items-center justify-between gap-3 px-5 py-3.5 text-sm">
+              <span className="flex items-center gap-3">
+                <span
+                  aria-hidden
+                  className="flex size-9 items-center justify-center rounded-full bg-accent text-xs font-bold text-brand-800"
+                >
+                  {initials(member.full_name)}
+                </span>
+                <span className="font-semibold">{member.full_name}</span>
+              </span>
+              <span className="rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground">
+                {ROLE_LABELS[member.role]}
+              </span>
             </li>
           ))}
         </ul>
