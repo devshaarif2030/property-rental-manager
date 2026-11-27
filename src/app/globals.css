@@ -6,8 +6,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-jakarta);
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
@@ -24,53 +24,115 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-brand-950: var(--brand-950);
+  --color-brand-900: var(--brand-900);
+  --color-brand-800: var(--brand-800);
+  --color-brand-600: var(--brand-600);
+  --color-brand-400: var(--brand-400);
+  --color-brand-100: var(--brand-100);
+  --color-brand-50: var(--brand-50);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-info: var(--info);
+  --color-info-soft: var(--info-soft);
+  --color-danger-soft: var(--danger-soft);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  /* Design system. Cool light surfaces, deep navy brand, one sans family. */
+  --radius: 0.5rem;
+  --background: #f1f3f7;
+  --foreground: #0c1324;
+  --card: #ffffff;
+  --card-foreground: #0c1324;
+  --popover: #ffffff;
+  --popover-foreground: #0c1324;
+  --primary: #16295c;
+  --primary-foreground: #ffffff;
+  --secondary: #e9ecf3;
+  --secondary-foreground: #0c1324;
+  --muted: #e9ecf3;
+  --muted-foreground: #5c6479;
+  --accent: #e5eaf7;
+  --accent-foreground: #101f48;
+  --destructive: #c8321f;
+  --border: #e0e4ee;
+  --input: #d9deea;
+  --ring: #2b4596;
+
+  /* Brand scale, darkest to lightest. Gradients use the 950 to 600 range. */
+  --brand-950: #070f29;
+  --brand-900: #101f48;
+  --brand-800: #16295c;
+  --brand-600: #2b4596;
+  --brand-400: #7591e0;
+  --brand-100: #dbe3f8;
+  --brand-50: #eef2fb;
+
+  --warning: #b45309;
+  --warning-soft: #fdf3e2;
+  --info: #0f6f8a;
+  --info-soft: #e3f3f7;
+  --danger-soft: #fcebe8;
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
+  --background: #070b17;
+  --foreground: #eef1f8;
+  --card: #0e1426;
+  --card-foreground: #eef1f8;
+  --popover: #0e1426;
+  --popover-foreground: #eef1f8;
+  --primary: #7591e0;
+  --primary-foreground: #070f29;
+  --secondary: #161e35;
+  --secondary-foreground: #eef1f8;
+  --muted: #161e35;
+  --muted-foreground: #9aa3bb;
+  --accent: #18264d;
+  --accent-foreground: #dbe3f8;
+  --destructive: #f07a66;
+  --border: rgb(255 255 255 / 10%);
+  --input: rgb(255 255 255 / 14%);
+  --ring: #7591e0;
+}
+
+@utility bg-brand-gradient {
+  background-color: var(--brand-900);
+  background-image:
+    radial-gradient(120% 90% at 100% 0%, rgb(117 145 224 / 35%) 0%, transparent 55%),
+    radial-gradient(80% 80% at 0% 100%, rgb(7 15 41 / 90%) 0%, transparent 60%),
+    linear-gradient(135deg, var(--brand-950) 0%, var(--brand-900) 45%, var(--brand-600) 100%);
+}
+
+/* Frosted panel for use on the brand gradient. */
+@utility glass {
+  background-color: rgb(255 255 255 / 8%);
+  border: 1px solid rgb(255 255 255 / 16%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 14%),
+    0 12px 40px -12px rgb(0 0 0 / 35%);
+  backdrop-filter: blur(18px) saturate(140%);
+}
+
+/* Frosted panel for use on light surfaces. */
+@utility glass-light {
+  background-color: rgb(255 255 255 / 72%);
+  border: 1px solid rgb(255 255 255 / 80%);
+  box-shadow: 0 10px 30px -12px rgb(12 19 36 / 18%);
+  backdrop-filter: blur(16px) saturate(150%);
+}
+
+/* Soft card shadow used across the app. */
+@utility shadow-card {
+  box-shadow:
+    0 1px 2px rgb(12 19 36 / 4%),
+    0 8px 24px -12px rgb(12 19 36 / 10%);
 }
 
 @layer base {
@@ -79,5 +141,110 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: "ss01", "cv11";
+  }
+  h1,
+  h2,
+  h3 {
+    @apply tracking-tight;
+  }
+}
+
+/* Diagonal hatch for "planned" or "billed" amounts in charts. */
+@utility bg-hatched {
+  background-color: var(--muted);
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgb(12 19 36 / 14%) 0 2px,
+    transparent 2px 7px
+  );
+}
+
+/* Motion: short, subtle entrances. Off for people who ask for reduced motion. */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes grow-up {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@layer components {
+  .animate-fade-up {
+    animation: fade-up 0.6s cubic-bezier(0.22, 0.8, 0.3, 1) both;
+    animation-delay: var(--delay, 0ms);
+  }
+
+  .animate-grow-up {
+    animation: grow-up 0.8s cubic-bezier(0.22, 0.8, 0.3, 1) 0.3s both;
+  }
+
+  /* Each direct child fades up a little after the one before it. */
+  .stagger > *,
+  .stagger-page > * > * {
+    animation: fade-up 0.6s cubic-bezier(0.22, 0.8, 0.3, 1) both;
+  }
+  .stagger > :nth-child(2),
+  .stagger-page > * > :nth-child(2) {
+    animation-delay: 70ms;
+  }
+  .stagger > :nth-child(3),
+  .stagger-page > * > :nth-child(3) {
+    animation-delay: 140ms;
+  }
+  .stagger > :nth-child(4),
+  .stagger-page > * > :nth-child(4) {
+    animation-delay: 210ms;
+  }
+  .stagger > :nth-child(5),
+  .stagger-page > * > :nth-child(5) {
+    animation-delay: 280ms;
+  }
+  .stagger > :nth-child(n + 6),
+  .stagger-page > * > :nth-child(n + 6) {
+    animation-delay: 350ms;
+  }
+
+  /* Cards that link somewhere lift slightly on hover. */
+  .hover-lift {
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+  .hover-lift:hover {
+    transform: translateY(-2px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-up,
+  .animate-grow-up,
+  .stagger > *,
+  .stagger-page > * > * {
+    animation: none;
+  }
+  .hover-lift,
+  .hover-lift:hover {
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Lift the developer credit above the phone tab bar. */
+@media (width < 64rem) {
+  body:has([data-bottom-nav]) .dev-credit {
+    bottom: 5rem;
   }
 }

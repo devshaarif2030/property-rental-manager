@@ -46,9 +46,9 @@ function RentCharges({ charges, currency }: { charges: RentChargeRow[]; currency
       {charges.length === 0 ? (
         <p className="text-sm text-muted-foreground">No charges yet. The first one appears tonight.</p>
       ) : (
-        <ul className="divide-y rounded-md border">
+        <ul className="divide-y divide-border/70 overflow-hidden rounded-2xl border border-border/70 bg-card shadow-card">
           {charges.map((charge) => (
-            <li key={charge.id} className="flex flex-wrap items-center justify-between gap-2 px-4 py-3 text-sm">
+            <li key={charge.id} className="flex flex-wrap items-center justify-between gap-2 px-5 py-4 text-sm">
               <span className="font-medium">{formatIsoMonth(charge.periodMonth)}</span>
               <span className="flex items-center gap-3 text-muted-foreground">
                 {formatCents(charge.amountCents, currency)} · due {formatIsoDate(charge.dueDate)}
@@ -93,7 +93,7 @@ export default async function UnitPage({ params }: PageProps<"/manager/propertie
         >
           {unit.propertyName}
         </Link>
-        <h1 className="text-2xl font-semibold tracking-tight">{unit.label}</h1>
+        <h1 className="text-3xl font-semibold">{unit.label}</h1>
         <p className="text-muted-foreground">
           {unit.bedrooms} bed, {unit.bathrooms} bath · {formatCents(unit.rentAmountCents, currency)} a month ·{" "}
           <span className="capitalize">{unit.status}</span>
@@ -103,7 +103,7 @@ export default async function UnitPage({ params }: PageProps<"/manager/propertie
       <section className="flex flex-col gap-4">
         <h2 className="text-lg font-semibold">Current lease</h2>
         {lease ? (
-          <div className="flex flex-col gap-4 rounded-md border p-4">
+          <div className="flex flex-col gap-4 rounded-2xl border border-border/70 bg-card shadow-card p-5">
             <dl className="grid gap-3 text-sm sm:grid-cols-2">
               <div>
                 <dt className="text-muted-foreground">Tenant</dt>
@@ -137,7 +137,7 @@ export default async function UnitPage({ params }: PageProps<"/manager/propertie
             </div>
           </div>
         ) : (
-          <div className="flex flex-col items-start gap-3 rounded-md border border-dashed p-6">
+          <div className="flex flex-col items-start gap-3 rounded-2xl border border-dashed bg-card/60 p-6">
             <p className="text-sm text-muted-foreground">This unit is vacant.</p>
             <Button asChild size="sm">
               <Link href={`${basePath}/leases/new`}>Create lease</Link>
@@ -153,9 +153,9 @@ export default async function UnitPage({ params }: PageProps<"/manager/propertie
         {unit.pastLeases.length === 0 ? (
           <p className="text-sm text-muted-foreground">None yet.</p>
         ) : (
-          <ul className="divide-y rounded-md border">
+          <ul className="divide-y divide-border/70 overflow-hidden rounded-2xl border border-border/70 bg-card shadow-card">
             {unit.pastLeases.map((pastLease) => (
-              <li key={pastLease.id} className="flex flex-col gap-1 px-4 py-3 text-sm sm:flex-row sm:justify-between">
+              <li key={pastLease.id} className="flex flex-col gap-1 px-5 py-4 text-sm sm:flex-row sm:justify-between">
                 <span className="font-medium">{pastLease.tenantName}</span>
                 <span className="flex flex-wrap gap-3 text-muted-foreground">
                   {leasePeriod(pastLease)} · {formatCents(pastLease.rentAmountCents, currency)}

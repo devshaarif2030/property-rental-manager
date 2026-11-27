@@ -55,7 +55,7 @@ export function TriageForm({ requestId, staff, defaults }: TriageFormProps) {
   });
 
   return (
-    <form onSubmit={onSubmit} noValidate className="flex max-w-xl flex-col gap-4 rounded-md border p-4">
+    <form onSubmit={onSubmit} noValidate className="flex max-w-xl flex-col gap-4 rounded-2xl border border-border/70 bg-card shadow-card p-5">
       <div className="grid gap-4 sm:grid-cols-3">
         <div className="flex flex-col gap-2">
           <Label htmlFor="category">Category</Label>

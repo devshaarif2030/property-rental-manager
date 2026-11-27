@@ -9,7 +9,7 @@ export function TriageSuggestion({ request }: { request: RequestDetail }) {
     return <p className="text-sm text-muted-foreground">Working out a suggestion. Reload in a few seconds.</p>;
   }
   return (
-    <div className="flex flex-col gap-1 rounded-md border border-dashed p-3 text-sm">
+    <div className="flex flex-col gap-1 rounded-2xl border border-dashed bg-card/60 p-3 text-sm">
       <p>
         <span className="font-medium">{SOURCE_LABELS[request.aiSource]}:</span>{" "}
         {CATEGORY_LABELS[request.aiCategory]}, {PRIORITY_LABELS[request.aiPriority]}

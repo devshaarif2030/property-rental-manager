@@ -31,7 +31,7 @@ export default async function ReceiptPage({ params }: PageProps<"/tenant/payment
   if (receipt.status !== "succeeded") {
     return (
       <div className="flex max-w-lg flex-col gap-4">
-        <h1 className="text-2xl font-semibold tracking-tight">
+        <h1 className="text-3xl font-semibold">
           {receipt.status === "pending" ? "Confirming your payment" : "Payment not completed"}
         </h1>
         <p className="text-muted-foreground">
@@ -47,10 +47,10 @@ export default async function ReceiptPage({ params }: PageProps<"/tenant/payment
   }
 
   return (
-    <article className="flex max-w-lg flex-col gap-4 rounded-md border p-6">
+    <article className="flex max-w-lg flex-col gap-4 rounded-2xl border border-border/70 bg-card shadow-card p-6">
       <div>
         <p className="text-sm text-muted-foreground">Receipt</p>
-        <h1 className="text-2xl font-semibold tracking-tight">Rent paid</h1>
+        <h1 className="text-3xl font-semibold">Rent paid</h1>
       </div>
       <dl className="grid gap-3 text-sm">
         <div className="flex justify-between gap-4">

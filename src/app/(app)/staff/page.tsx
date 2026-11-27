@@ -1,5 +1,10 @@
+import { CircleCheck, ClipboardList, Hammer } from "lucide-react";
+
 import { RequestList } from "@/components/maintenance/request-list";
+import { PageHeader } from "@/components/page-header";
+import { StatCard } from "@/components/stat-card";
 import { requireRole } from "@/lib/auth/session";
+import { firstName } from "@/lib/names";
 import { listRequests } from "@/lib/maintenance/queries";
 import { createClient } from "@/lib/supabase/server";
 
@@ -15,10 +20,20 @@ export default async function StaffHomePage() {
 
   return (
     <div className="flex flex-col gap-8">
-      <div>
-        <p className="text-sm text-muted-foreground">Maintenance staff</p>
-        <h1 className="text-2xl font-semibold tracking-tight">My jobs</h1>
-        <p className="text-muted-foreground">Signed in as {user.fullName}.</p>
+      <PageHeader
+        eyebrow="Maintenance staff"
+        title="My jobs"
+        description={`Jobs assigned to you, ${firstName(user.fullName)}. Open one to update its status.`}
+      />
+      <div className="stagger grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
+        <StatCard tone="brand" className="col-span-2 sm:col-span-1" icon={ClipboardList} label="To do" value={open.length} hint="Assigned or in progress." />
+        <StatCard
+          icon={Hammer}
+          label="In progress"
+          value={open.filter((job) => job.status === "in_progress").length}
+          hint="Started and not finished."
+        />
+        <StatCard icon={CircleCheck} label="Finished" value={finished.length} hint="Done or cancelled." />
       </div>
       <section className="flex flex-col gap-3">
         <h2 className="text-lg font-semibold">To do</h2>

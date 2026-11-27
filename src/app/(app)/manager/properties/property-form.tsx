@@ -60,7 +60,7 @@ export function PropertyForm({ mode, defaultValues, propertyId }: PropertyFormPr
         <Label htmlFor="country">Country</Label>
         <select
           id="country"
-          className="h-9 rounded-md border border-input bg-transparent px-3 text-sm shadow-xs"
+          className="h-11 rounded-xl border border-input bg-card px-3 text-sm"
           {...form.register("country")}
         >
           {Object.entries(COUNTRIES).map(([code, name]) => (

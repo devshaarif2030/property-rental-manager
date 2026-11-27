@@ -30,7 +30,7 @@ export default async function TenantRequestPage({
         Back to home
       </Link>
       {photosFailed && (
-        <p role="alert" className="rounded-md border border-destructive/40 p-3 text-sm text-destructive">
+        <p role="alert" className="rounded-xl border border-destructive/30 bg-danger-soft p-3 text-sm text-destructive">
           Your request was sent, but a photo could not be uploaded.
         </p>
       )}
