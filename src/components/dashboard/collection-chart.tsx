@@ -40,11 +40,11 @@ export function CollectionChart({ months, currency }: CollectionChartProps) {
                 </span>
               )}
               <div
-                className="bg-hatched relative flex w-full max-w-14 flex-col justify-end overflow-hidden rounded-full"
+                className="bg-hatched relative flex w-full max-w-14 flex-col justify-end overflow-hidden rounded-lg"
                 style={{ height: `${Math.max(6, (month.billedCents / maxBilled) * 100)}%` }}
               >
                 <div
-                  className="animate-grow-up w-full origin-bottom rounded-full bg-gradient-to-t from-brand-900 to-brand-600 transition-opacity group-hover:opacity-90"
+                  className="animate-grow-up w-full origin-bottom rounded-md bg-gradient-to-t from-brand-900 to-brand-600 transition-opacity group-hover:opacity-90"
                   style={{ height: `${month.billedCents === 0 ? 0 : (month.collectedCents / month.billedCents) * 100}%` }}
                 />
               </div>

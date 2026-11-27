@@ -95,7 +95,7 @@ export default function Home() {
       </header>
 
       <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-20 px-4 pb-16 sm:px-6">
-        <section className="bg-brand-gradient animate-fade-up relative overflow-hidden rounded-[28px] px-6 py-12 text-white sm:px-12 sm:py-16">
+        <section className="bg-brand-gradient animate-fade-up relative overflow-hidden rounded-2xl px-6 py-12 text-white sm:px-12 sm:py-16">
           <div
             aria-hidden
             className="pointer-events-none absolute -top-24 -right-24 size-96 rounded-full bg-brand-400/25 blur-3xl"
@@ -126,7 +126,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="glass animate-fade-up flex flex-col gap-5 rounded-3xl p-6 sm:p-7 [--delay:250ms]">
+            <div className="glass animate-fade-up flex flex-col gap-5 rounded-2xl p-6 sm:p-7 [--delay:250ms]">
               <div className="flex flex-col gap-1.5">
                 <h2 className="text-xl font-semibold">Try the live demo</h2>
                 <p className="text-sm text-brand-100">
@@ -177,7 +177,7 @@ export default function Home() {
 
         <section
           id="ai-triage"
-          className="grid scroll-mt-8 gap-8 rounded-[28px] border border-border/70 bg-card p-6 shadow-card sm:p-10 lg:grid-cols-[1fr_1.4fr]"
+          className="grid scroll-mt-8 gap-8 rounded-2xl border border-border/70 bg-card p-6 shadow-card sm:p-10 lg:grid-cols-[1fr_1.4fr]"
         >
           <div className="flex flex-col gap-3">
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-brand-600">AI triage</p>

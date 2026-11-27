@@ -1,6 +1,6 @@
 "use client";
 
-import { Building2, ChevronRight, Loader2, UserRound, Wrench, type LucideIcon } from "lucide-react";
+import { ArrowRight, Building2, Loader2, UserRound, Wrench, type LucideIcon } from "lucide-react";
 import { useState, useTransition } from "react";
 
 import { signInAsDemo } from "@/app/sign-in/actions";
@@ -46,43 +46,44 @@ export function DemoLoginButtons({ variant = "secondary" }: DemoLoginButtonsProp
             <li key={role}>
               <button
                 type="button"
-                aria-label={`Try as ${ROLE_LABELS[role].toLowerCase()}`}
                 disabled={isPending}
                 onClick={() => tryAs(role)}
                 className={cn(
-                  "group flex w-full items-center gap-3 rounded-2xl border p-2.5 pr-4 text-left transition-colors disabled:opacity-60",
+                  "group flex w-full cursor-pointer items-center gap-3 rounded-xl p-2.5 pr-3 text-left shadow-[0_1px_0_rgb(255_255_255/0.12)_inset,0_6px_16px_-8px_rgb(7_15_41/0.5)] transition-all hover:-translate-y-px focus-visible:ring-4 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-60",
                   variant === "glass"
-                    ? "border-white/10 bg-white/[0.04] hover:border-white/20 hover:bg-white/[0.09]"
-                    : "border-border bg-card hover:border-brand-400/60 hover:bg-brand-50",
+                    ? "bg-white text-brand-950 hover:bg-brand-50 focus-visible:ring-white/40"
+                    : "bg-primary text-primary-foreground hover:bg-brand-900 focus-visible:ring-ring/25",
                 )}
               >
                 <span
                   aria-hidden
                   className={cn(
-                    "flex size-10 shrink-0 items-center justify-center rounded-xl",
-                    variant === "glass" ? "bg-white/10 text-white" : "bg-accent text-brand-800",
+                    "flex size-10 shrink-0 items-center justify-center rounded-lg",
+                    variant === "glass" ? "bg-brand-50 text-brand-800" : "bg-white/10 text-white",
                   )}
                 >
                   {isThisPending ? <Loader2 className="size-[18px] animate-spin" /> : <Icon className="size-[18px]" />}
                 </span>
                 <span className="flex min-w-0 flex-1 flex-col">
-                  <span className="text-sm font-semibold">{ROLE_LABELS[role]}</span>
+                  <span className="text-sm font-semibold">Try as {ROLE_LABELS[role].toLowerCase()}</span>
                   <span
                     className={cn(
                       "truncate text-xs",
-                      variant === "glass" ? "text-brand-100/80" : "text-muted-foreground",
+                      variant === "glass" ? "text-muted-foreground" : "text-brand-100",
                     )}
                   >
                     {isThisPending ? "Signing in..." : hint}
                   </span>
                 </span>
-                <ChevronRight
+                <span
                   aria-hidden
                   className={cn(
-                    "size-4 shrink-0 transition-transform group-hover:translate-x-0.5",
-                    variant === "glass" ? "text-white/60" : "text-muted-foreground",
+                    "flex size-8 shrink-0 items-center justify-center rounded-lg transition-transform group-hover:translate-x-0.5",
+                    variant === "glass" ? "bg-brand-800 text-white" : "bg-white text-brand-900",
                   )}
-                />
+                >
+                  <ArrowRight className="size-4" />
+                </span>
               </button>
             </li>
           );
