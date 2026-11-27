@@ -68,7 +68,7 @@ export function DemoLoginButtons({ variant = "secondary" }: DemoLoginButtonsProp
                   <span className="text-sm font-semibold">Try as {ROLE_LABELS[role].toLowerCase()}</span>
                   <span
                     className={cn(
-                      "truncate text-xs",
+                      "text-xs leading-snug",
                       variant === "glass" ? "text-muted-foreground" : "text-brand-100",
                     )}
                   >
