@@ -58,8 +58,8 @@ jobs:
           export SUPABASE_SECRET_KEY=$(echo "$status" | jq -r '.SECRET_KEY // .SERVICE_ROLE_KEY')
           pnpm test:integration
 
-  screenshots:
-    name: Screenshots of the demo
+  e2e:
+    name: End-to-end tests and screenshots
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -78,10 +78,15 @@ jobs:
             echo "NEXT_PUBLIC_SUPABASE_URL=$(echo "$status" | jq -r '.API_URL')"
             echo "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=$(echo "$status" | jq -r '.PUBLISHABLE_KEY // .ANON_KEY')"
             echo "SUPABASE_SECRET_KEY=$(echo "$status" | jq -r '.SECRET_KEY // .SERVICE_ROLE_KEY')"
+            # Not real keys. Stripe is never called: the tests sign webhooks with this secret.
+            echo "STRIPE_SECRET_KEY=sk_test_e2e_not_a_real_key"
+            echo "STRIPE_WEBHOOK_SECRET=whsec_e2e_not_a_real_secret"
           } >> "$GITHUB_ENV"
       - run: pnpm build
       - run: pnpm exec playwright install --with-deps chromium
+      # Screenshots first, while the demo data is still untouched.
       - run: pnpm screenshots
+      - run: pnpm e2e
       - uses: actions/upload-artifact@v4
         if: always()
         with:
