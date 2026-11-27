@@ -21,7 +21,7 @@ export default async function NewLeasePage({
 
   return (
     <div className="flex flex-col gap-6">
-      <h1 className="text-3xl font-bold">
+      <h1 className="text-3xl font-semibold">
         New lease for {unit.label}, {unit.propertyName}
       </h1>
       {unit.activeLease ? (

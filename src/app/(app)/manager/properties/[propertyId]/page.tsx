@@ -32,7 +32,7 @@ export default async function PropertyPage({ params }: PageProps<"/manager/prope
           <Link href="/manager/properties" className="text-sm font-medium text-brand-600 hover:text-brand-900">
             ← Properties
           </Link>
-          <h1 className="text-3xl font-bold">{property.name}</h1>
+          <h1 className="text-3xl font-semibold">{property.name}</h1>
           <p className="text-muted-foreground">
             {property.addressLine}, {property.city} {property.postcode},{" "}
             {COUNTRIES[property.country as keyof typeof COUNTRIES]}

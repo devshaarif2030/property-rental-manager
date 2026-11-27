@@ -34,7 +34,7 @@ async function InviteDetails({ params }: Pick<PageProps<"/invite/[token]">, "par
   if (!invite) {
     return (
       <div className="flex flex-col gap-2">
-        <h1 className="text-3xl font-bold">Invite not valid</h1>
+        <h1 className="text-3xl font-semibold">Invite not valid</h1>
         <p className="text-sm text-muted-foreground">
           This link has expired, was revoked or was already used. Ask your property manager for a
           new invite, or <Link href={SIGN_IN_PATH} className="underline">sign in</Link> if you
@@ -47,7 +47,7 @@ async function InviteDetails({ params }: Pick<PageProps<"/invite/[token]">, "par
   return (
     <>
       <div className="flex flex-col gap-2">
-        <h1 className="text-3xl font-bold">Join {invite.organizationName}</h1>
+        <h1 className="text-3xl font-semibold">Join {invite.organizationName}</h1>
         <p className="text-sm text-muted-foreground">
           You are invited as <span className="font-medium text-foreground">{ROLE_LABELS[invite.role]}</span>.
           Set your name and password to finish.

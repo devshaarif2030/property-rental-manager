@@ -25,7 +25,7 @@ export default async function EditLeasePage({
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h1 className="text-3xl font-bold">Edit lease terms</h1>
+        <h1 className="text-3xl font-semibold">Edit lease terms</h1>
         <p className="text-muted-foreground">
           {lease.tenantName}, {lease.unitLabel}, from {formatIsoDate(lease.startDate)}. To change the
           tenant or start date, end this lease and create a new one.

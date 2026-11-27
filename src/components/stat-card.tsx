@@ -8,7 +8,7 @@ type StatCardProps = {
   value: ReactNode;
   hint?: ReactNode;
   icon: LucideIcon;
-  /** The brand card sits on the emerald gradient with a glass icon. Use it once per row. */
+  /** The brand card sits on the navy gradient with a glass icon. Use it once per row. */
   tone?: "default" | "brand";
   className?: string;
 };
@@ -35,7 +35,7 @@ export function StatCard({ label, value, hint, icon: Icon, tone = "default", cla
           <Icon className="size-4" />
         </span>
       </div>
-      <p className="text-2xl font-bold tracking-tight sm:text-4xl">{value}</p>
+      <p className="text-2xl font-medium tracking-tight sm:text-4xl">{value}</p>
       {hint && <p className={cn("text-xs", brand ? "text-brand-100" : "text-muted-foreground")}>{hint}</p>}
     </div>
   );

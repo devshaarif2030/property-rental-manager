@@ -93,7 +93,7 @@ export default async function UnitPage({ params }: PageProps<"/manager/propertie
         >
           {unit.propertyName}
         </Link>
-        <h1 className="text-3xl font-bold">{unit.label}</h1>
+        <h1 className="text-3xl font-semibold">{unit.label}</h1>
         <p className="text-muted-foreground">
           {unit.bedrooms} bed, {unit.bathrooms} bath · {formatCents(unit.rentAmountCents, currency)} a month ·{" "}
           <span className="capitalize">{unit.status}</span>

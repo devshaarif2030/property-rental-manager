@@ -44,69 +44,69 @@
 }
 
 :root {
-  /* Design system. Warm light surfaces, deep emerald brand, one sans family. */
+  /* Design system. Cool light surfaces, deep navy brand, one sans family. */
   --radius: 1rem;
-  --background: #f2f3f0;
-  --foreground: #0e1a15;
+  --background: #f1f3f7;
+  --foreground: #0c1324;
   --card: #ffffff;
-  --card-foreground: #0e1a15;
+  --card-foreground: #0c1324;
   --popover: #ffffff;
-  --popover-foreground: #0e1a15;
-  --primary: #12543d;
+  --popover-foreground: #0c1324;
+  --primary: #16295c;
   --primary-foreground: #ffffff;
-  --secondary: #eceee9;
-  --secondary-foreground: #0e1a15;
-  --muted: #eceee9;
-  --muted-foreground: #5f6a64;
-  --accent: #e4f2ea;
-  --accent-foreground: #0b3b2c;
+  --secondary: #e9ecf3;
+  --secondary-foreground: #0c1324;
+  --muted: #e9ecf3;
+  --muted-foreground: #5c6479;
+  --accent: #e5eaf7;
+  --accent-foreground: #101f48;
   --destructive: #c8321f;
-  --border: #e2e5df;
-  --input: #dde1da;
-  --ring: #1f7a55;
+  --border: #e0e4ee;
+  --input: #d9deea;
+  --ring: #2b4596;
 
   /* Brand scale, darkest to lightest. Gradients use the 950 to 600 range. */
-  --brand-950: #06261b;
-  --brand-900: #0b3b2c;
-  --brand-800: #12543d;
-  --brand-600: #1f7a55;
-  --brand-400: #4fb386;
-  --brand-100: #d7eee1;
-  --brand-50: #eef7f2;
+  --brand-950: #070f29;
+  --brand-900: #101f48;
+  --brand-800: #16295c;
+  --brand-600: #2b4596;
+  --brand-400: #7591e0;
+  --brand-100: #dbe3f8;
+  --brand-50: #eef2fb;
 
   --warning: #b45309;
   --warning-soft: #fdf3e2;
-  --info: #1d5f8c;
-  --info-soft: #e6f0f7;
+  --info: #0f6f8a;
+  --info-soft: #e3f3f7;
   --danger-soft: #fcebe8;
 }
 
 .dark {
-  --background: #08130f;
-  --foreground: #eef3f0;
-  --card: #0f1d17;
-  --card-foreground: #eef3f0;
-  --popover: #0f1d17;
-  --popover-foreground: #eef3f0;
-  --primary: #4fb386;
-  --primary-foreground: #06261b;
-  --secondary: #172720;
-  --secondary-foreground: #eef3f0;
-  --muted: #172720;
-  --muted-foreground: #9aa8a0;
-  --accent: #173528;
-  --accent-foreground: #d7eee1;
+  --background: #070b17;
+  --foreground: #eef1f8;
+  --card: #0e1426;
+  --card-foreground: #eef1f8;
+  --popover: #0e1426;
+  --popover-foreground: #eef1f8;
+  --primary: #7591e0;
+  --primary-foreground: #070f29;
+  --secondary: #161e35;
+  --secondary-foreground: #eef1f8;
+  --muted: #161e35;
+  --muted-foreground: #9aa3bb;
+  --accent: #18264d;
+  --accent-foreground: #dbe3f8;
   --destructive: #f07a66;
   --border: rgb(255 255 255 / 10%);
   --input: rgb(255 255 255 / 14%);
-  --ring: #4fb386;
+  --ring: #7591e0;
 }
 
 @utility bg-brand-gradient {
   background-color: var(--brand-900);
   background-image:
-    radial-gradient(120% 90% at 100% 0%, rgb(79 179 134 / 35%) 0%, transparent 55%),
-    radial-gradient(80% 80% at 0% 100%, rgb(6 38 27 / 90%) 0%, transparent 60%),
+    radial-gradient(120% 90% at 100% 0%, rgb(117 145 224 / 35%) 0%, transparent 55%),
+    radial-gradient(80% 80% at 0% 100%, rgb(7 15 41 / 90%) 0%, transparent 60%),
     linear-gradient(135deg, var(--brand-950) 0%, var(--brand-900) 45%, var(--brand-600) 100%);
 }
 
@@ -124,15 +124,15 @@
 @utility glass-light {
   background-color: rgb(255 255 255 / 72%);
   border: 1px solid rgb(255 255 255 / 80%);
-  box-shadow: 0 10px 30px -12px rgb(14 26 21 / 18%);
+  box-shadow: 0 10px 30px -12px rgb(12 19 36 / 18%);
   backdrop-filter: blur(16px) saturate(150%);
 }
 
 /* Soft card shadow used across the app. */
 @utility shadow-card {
   box-shadow:
-    0 1px 2px rgb(14 26 21 / 4%),
-    0 8px 24px -12px rgb(14 26 21 / 10%);
+    0 1px 2px rgb(12 19 36 / 4%),
+    0 8px 24px -12px rgb(12 19 36 / 10%);
 }
 
 @layer base {
@@ -155,7 +155,7 @@
   background-color: var(--muted);
   background-image: repeating-linear-gradient(
     135deg,
-    rgb(14 26 21 / 14%) 0 2px,
+    rgb(12 19 36 / 14%) 0 2px,
     transparent 2px 7px
   );
 }

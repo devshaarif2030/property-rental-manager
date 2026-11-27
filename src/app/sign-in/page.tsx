@@ -12,7 +12,7 @@ export default function SignInPage() {
   return (
     <AuthShell>
       <div className="flex flex-col gap-2">
-        <h1 className="text-3xl font-bold">Welcome back</h1>
+        <h1 className="text-3xl font-semibold">Welcome back</h1>
         <p className="text-sm text-muted-foreground">
           Accounts are invite only. Ask your property manager for an invite.
         </p>

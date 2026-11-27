@@ -17,7 +17,7 @@ export function RequestDetailView({ request, unknownAuthor }: { request: Request
           {request.tenantName ? ` by ${request.tenantName}` : ""}
         </p>
         <div className="flex flex-wrap items-center gap-3">
-          <h1 className="text-3xl font-bold">{request.title}</h1>
+          <h1 className="text-3xl font-semibold">{request.title}</h1>
           <StatusBadge status={request.status} />
           {request.priority && <PriorityBadge priority={request.priority} />}
           {request.category && (

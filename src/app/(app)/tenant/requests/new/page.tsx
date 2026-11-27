@@ -12,7 +12,7 @@ export default async function NewRequestPage() {
     <div className="flex flex-col gap-6">
       <div>
         <p className="text-sm text-muted-foreground">Maintenance</p>
-        <h1 className="text-3xl font-bold">Report a problem</h1>
+        <h1 className="text-3xl font-semibold">Report a problem</h1>
         <p className="text-muted-foreground">Your property manager sees it straight away. For a gas leak or fire, call emergency services first.</p>
       </div>
       <RequestForm />

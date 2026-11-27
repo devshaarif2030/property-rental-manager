@@ -82,7 +82,7 @@ export default async function PeoplePage() {
               <span className="flex items-center gap-3">
                 <span
                   aria-hidden
-                  className="flex size-9 items-center justify-center rounded-full bg-accent text-xs font-bold text-brand-800"
+                  className="flex size-9 items-center justify-center rounded-full bg-accent text-xs font-semibold text-brand-800"
                 >
                   {initials(member.full_name)}
                 </span>

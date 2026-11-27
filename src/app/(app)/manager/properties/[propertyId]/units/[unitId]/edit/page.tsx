@@ -20,7 +20,7 @@ export default async function EditUnitPage({
 
   return (
     <div className="flex flex-col gap-6">
-      <h1 className="text-3xl font-bold">
+      <h1 className="text-3xl font-semibold">
         Edit {unit.label}, {unit.properties.name}
       </h1>
       <UnitForm

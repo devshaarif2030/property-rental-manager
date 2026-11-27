@@ -25,7 +25,7 @@ export default async function EditPropertyPage({ params }: PageProps<"/manager/p
 
   return (
     <div className="flex flex-col gap-6">
-      <h1 className="text-3xl font-bold">Edit {property.name}</h1>
+      <h1 className="text-3xl font-semibold">Edit {property.name}</h1>
       <PropertyForm mode="edit" propertyId={property.id} defaultValues={defaultValues} />
     </div>
   );

@@ -26,7 +26,7 @@ export function AuthShell({ children }: { children: ReactNode }) {
           className="pointer-events-none absolute -top-20 -left-20 size-80 rounded-full bg-brand-400/25 blur-3xl"
         />
         <div className="glass animate-fade-up relative flex flex-col gap-5 rounded-3xl p-7 [--delay:150ms]">
-          <p className="text-2xl leading-snug font-bold">Rent, leases and repairs for a small property team.</p>
+          <p className="text-2xl leading-snug font-semibold">Rent, leases and repairs for a small property team.</p>
           <ul className="flex flex-col gap-4">
             {HIGHLIGHTS.map((item) => (
               <li key={item.text} className="flex gap-3 text-sm text-brand-100">

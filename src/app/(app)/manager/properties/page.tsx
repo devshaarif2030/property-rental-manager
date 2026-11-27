@@ -59,7 +59,7 @@ export default async function PropertiesPage() {
                   </div>
                   <div className="flex flex-1 flex-col gap-4 p-5">
                     <div>
-                      <p className="text-lg font-bold">{property.name}</p>
+                      <p className="text-lg font-semibold">{property.name}</p>
                       <p className="flex items-center gap-1.5 text-sm text-muted-foreground">
                         <MapPin className="size-3.5" aria-hidden />
                         {property.addressLine}, {property.city} {property.postcode}

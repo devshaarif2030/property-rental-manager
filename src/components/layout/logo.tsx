@@ -14,7 +14,7 @@ export function Logo({ tone = "dark", className }: { tone?: "dark" | "light"; cl
       </span>
       <span
         className={cn(
-          "flex flex-col text-[15px] leading-[1.1] font-bold tracking-tight",
+          "flex flex-col text-[15px] leading-[1.1] font-semibold tracking-tight",
           tone === "light" ? "text-white" : "text-foreground",
         )}
       >

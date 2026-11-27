@@ -122,7 +122,7 @@ export async function ManagerDashboard({ user }: { user: CurrentUser }) {
                         {charge.propertyName}, {charge.unitLabel} · due {formatIsoDate(charge.dueDate)}
                       </span>
                     </div>
-                    <span className="rounded-full bg-danger-soft px-2.5 py-1 text-xs font-bold text-destructive">
+                    <span className="rounded-full bg-danger-soft px-2.5 py-1 text-xs font-semibold text-destructive">
                       {formatCents(charge.amountCents, currency)}
                     </span>
                   </li>

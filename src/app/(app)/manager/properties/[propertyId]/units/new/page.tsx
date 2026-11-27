@@ -17,7 +17,7 @@ export default async function NewUnitPage({ params }: PageProps<"/manager/proper
 
   return (
     <div className="flex flex-col gap-6">
-      <h1 className="text-3xl font-bold">Add a unit to {property.name}</h1>
+      <h1 className="text-3xl font-semibold">Add a unit to {property.name}</h1>
       <UnitForm mode="create" propertyId={property.id} />
     </div>
   );

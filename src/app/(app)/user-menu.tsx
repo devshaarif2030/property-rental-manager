@@ -25,7 +25,7 @@ export async function UserMenu() {
       >
         <Bell className="size-[18px]" />
         {unread > 0 && (
-          <span className="absolute -top-0.5 -right-0.5 flex min-w-5 items-center justify-center rounded-full bg-destructive px-1 text-[10px] font-bold text-white ring-2 ring-card">
+          <span className="absolute -top-0.5 -right-0.5 flex min-w-5 items-center justify-center rounded-full bg-destructive px-1 text-[10px] font-semibold text-white ring-2 ring-card">
             {unread > 99 ? "99+" : unread}
           </span>
         )}
@@ -33,7 +33,7 @@ export async function UserMenu() {
       <Link href={homePathForRole(user.role)} className="flex items-center gap-3 rounded-full py-1 pr-1 sm:pr-3">
         <span
           aria-hidden
-          className="flex size-10 items-center justify-center rounded-full bg-brand-gradient text-sm font-bold text-white"
+          className="flex size-10 items-center justify-center rounded-full bg-brand-gradient text-sm font-semibold text-white"
         >
           {initials(user.fullName)}
         </span>

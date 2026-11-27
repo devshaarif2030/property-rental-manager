@@ -106,7 +106,7 @@ export default function Home() {
                 <Sparkles className="size-3.5" aria-hidden />
                 Portfolio build for a fictional property company
               </span>
-              <h1 className="text-4xl leading-[1.05] font-bold sm:text-6xl">
+              <h1 className="text-4xl leading-[1.05] font-semibold sm:text-6xl">
                 Rent, leases and repairs in one calm place.
               </h1>
               <p className="max-w-xl text-base text-brand-100 sm:text-lg">
@@ -144,7 +144,7 @@ export default function Home() {
         <section id="features" className="flex scroll-mt-8 flex-col gap-8">
           <div className="flex flex-col gap-2">
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-brand-600">Features by role</p>
-            <h2 className="text-3xl font-bold sm:text-4xl">One system, four points of view</h2>
+            <h2 className="text-3xl font-semibold sm:text-4xl">One system, four points of view</h2>
           </div>
           <ul className="stagger grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {FEATURES.map((feature) => (
@@ -160,7 +160,7 @@ export default function Home() {
                 </span>
                 <div className="flex flex-col gap-1">
                   <p className="text-xs font-semibold text-muted-foreground">{feature.role}</p>
-                  <h3 className="text-lg font-bold">{feature.title}</h3>
+                  <h3 className="text-lg font-semibold">{feature.title}</h3>
                 </div>
                 <ul className="flex flex-col gap-2 text-sm text-muted-foreground">
                   {feature.points.map((point) => (
@@ -181,7 +181,7 @@ export default function Home() {
         >
           <div className="flex flex-col gap-3">
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-brand-600">AI triage</p>
-            <h2 className="text-3xl font-bold">AI helps. A person decides.</h2>
+            <h2 className="text-3xl font-semibold">AI helps. A person decides.</h2>
             <p className="text-muted-foreground">
               Every repair request gets a suggested category and priority. The app keeps working when the AI does
               not, and nothing is acted on until the manager confirms.
@@ -197,9 +197,9 @@ export default function Home() {
                   >
                     <step.icon className="size-[18px]" />
                   </span>
-                  <span className="text-sm font-bold text-muted-foreground">0{index + 1}</span>
+                  <span className="text-sm font-semibold text-muted-foreground">0{index + 1}</span>
                 </div>
-                <h3 className="font-bold">{step.title}</h3>
+                <h3 className="font-semibold">{step.title}</h3>
                 <p className="text-sm text-muted-foreground">{step.text}</p>
               </li>
             ))}

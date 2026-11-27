@@ -13,7 +13,7 @@ export function PageHeader({ eyebrow, title, description, actions }: PageHeaderP
     <div className="flex flex-wrap items-end justify-between gap-4">
       <div className="flex min-w-0 flex-col gap-1.5">
         {eyebrow && <p className="text-xs font-semibold uppercase tracking-[0.14em] text-brand-600">{eyebrow}</p>}
-        <h1 className="text-3xl font-bold sm:text-4xl">{title}</h1>
+        <h1 className="text-3xl font-semibold sm:text-4xl">{title}</h1>
         {description && <p className="max-w-2xl text-muted-foreground">{description}</p>}
       </div>
       {actions && <div className="flex flex-wrap items-center gap-2">{actions}</div>}
