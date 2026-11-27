@@ -16,7 +16,8 @@
     "db:types": "supabase gen types typescript --local --schema public > src/lib/supabase/database.types.ts",
     "test": "vitest run",
     "test:integration": "vitest run --config vitest.integration.config.mts",
-    "screenshots": "playwright test --grep @screenshots"
+    "screenshots": "playwright test --grep @screenshots",
+    "e2e": "playwright test --grep-invert @screenshots"
   },
   "dependencies": {
     "@hookform/resolvers": "^7.0.9",

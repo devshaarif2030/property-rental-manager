@@ -11,7 +11,8 @@ import { getReceiptBySession } from "@/lib/payments/queries";
 import { getOrganizationCurrency } from "@/lib/properties/queries";
 import { createClient } from "@/lib/supabase/server";
 
-const sessionIdSchema = z.string().regex(/^cs_(test|live)_[A-Za-z0-9]{1,255}$/);
+// A Checkout Session id, or the id the nightly demo reset gives its sample payments.
+const sessionIdSchema = z.string().regex(/^(cs_(test|live)_[A-Za-z0-9]{1,255}|demo_seed_[0-9a-f-]{36})$/);
 
 const paidAtFormat = new Intl.DateTimeFormat("en-GB", { dateStyle: "medium", timeStyle: "short", timeZone: "UTC" });
 
