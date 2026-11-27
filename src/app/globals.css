@@ -172,6 +172,17 @@
   }
 }
 
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 @keyframes grow-up {
   from {
     transform: scaleY(0);
@@ -188,33 +199,33 @@
   }
 
   .animate-grow-up {
-    animation: grow-up 0.8s cubic-bezier(0.22, 0.8, 0.3, 1) 0.3s both;
+    animation: grow-up 0.45s cubic-bezier(0.22, 0.8, 0.3, 1) 0.05s both;
   }
 
-  /* Each direct child fades up a little after the one before it. */
-  .stagger > *,
-  .stagger-page > * > * {
+  /* Each direct child fades up a little after the one before it (landing page). */
+  .stagger > * {
     animation: fade-up 0.6s cubic-bezier(0.22, 0.8, 0.3, 1) both;
   }
-  .stagger > :nth-child(2),
-  .stagger-page > * > :nth-child(2) {
+  .stagger > :nth-child(2) {
     animation-delay: 70ms;
   }
-  .stagger > :nth-child(3),
-  .stagger-page > * > :nth-child(3) {
+  .stagger > :nth-child(3) {
     animation-delay: 140ms;
   }
-  .stagger > :nth-child(4),
-  .stagger-page > * > :nth-child(4) {
+  .stagger > :nth-child(4) {
     animation-delay: 210ms;
   }
-  .stagger > :nth-child(5),
-  .stagger-page > * > :nth-child(5) {
+  .stagger > :nth-child(5) {
     animation-delay: 280ms;
   }
-  .stagger > :nth-child(n + 6),
-  .stagger-page > * > :nth-child(n + 6) {
+  .stagger > :nth-child(n + 6) {
     animation-delay: 350ms;
+  }
+
+  /* Inside the app a page change should feel instant: one short fade, no queue. */
+  .stagger-page > * > *,
+  .stagger-page .stagger > * {
+    animation: page-in 0.18s ease-out both;
   }
 
   /* Cards that link somewhere lift slightly on hover. */
@@ -232,7 +243,8 @@
   .animate-fade-up,
   .animate-grow-up,
   .stagger > *,
-  .stagger-page > * > * {
+  .stagger-page > * > *,
+  .stagger-page .stagger > * {
     animation: none;
   }
   .hover-lift,
