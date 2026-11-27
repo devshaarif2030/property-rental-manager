@@ -56,7 +56,11 @@ test("staff start and finish the job", async ({ browser }) => {
   await page.getByRole("button", { name: "Start job" }).click();
   await expect(page.getByText("Coming round at 10 tomorrow.")).toBeVisible();
 
-  await page.getByLabel("Note for the timeline (optional)").fill("Replaced the washer, no more drip.");
+  // Wait for the form to reset for the next step before typing the next note.
+  const note = page.getByLabel("Note for the timeline (optional)");
+  await expect(page.getByRole("button", { name: "Mark as done" })).toBeVisible();
+  await expect(note).toHaveValue("");
+  await note.fill("Replaced the washer, no more drip.");
   await page.getByRole("button", { name: "Mark as done" }).click();
   await expect(page.getByText("Replaced the washer, no more drip.")).toBeVisible();
   await expect(page.getByRole("button", { name: "Mark as done" })).toBeHidden();
