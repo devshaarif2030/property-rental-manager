@@ -86,6 +86,20 @@ jobs:
       - run: pnpm exec playwright install --with-deps chromium
       # Screenshots first, while the demo data is still untouched.
       - run: pnpm screenshots
+      - name: TEMP review thumbnails
+        run: |
+          pip install --quiet pillow
+          python3 - <<'PY'
+          import base64, io, os
+          from PIL import Image
+          for file in sorted(os.listdir("screenshots")):
+              name = file[:-4]
+              im = Image.open(f"screenshots/{file}").convert("RGB")
+              w = 1440 if not name.startswith("phone") else 780
+              im = im.resize((w, int(im.height * w / im.width)))
+              buf = io.BytesIO(); im.save(buf, "JPEG", quality=85)
+              print(f"BEGIN {name}"); print(base64.b64encode(buf.getvalue()).decode()); print(f"END {name}")
+          PY
       - run: pnpm e2e
       - uses: actions/upload-artifact@v4
         if: always()
