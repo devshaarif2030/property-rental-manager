@@ -96,7 +96,7 @@ test("rent is only marked paid by a verified webhook", async ({ browser, request
   expect(signed.status()).toBe(200);
 
   await page.reload();
-  await expect(page.getByText("You are all paid up")).toBeVisible();
+  await expect(page.getByText("You are all paid up", { exact: true })).toBeVisible();
   await expect(page.getByText(`Rent, ${month}`)).toBeVisible();
   await page.getByRole("link", { name: "Receipt" }).first().click();
   await expect(page.getByRole("heading", { name: "Rent paid" })).toBeVisible();
