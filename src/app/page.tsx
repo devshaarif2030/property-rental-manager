@@ -95,13 +95,13 @@ export default function Home() {
       </header>
 
       <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-20 px-4 pb-16 sm:px-6">
-        <section className="bg-brand-gradient animate-fade-up relative overflow-hidden rounded-2xl px-6 py-12 text-white sm:px-12 sm:py-16">
+        <section className="bg-brand-gradient animate-fade-up relative overflow-hidden rounded-2xl px-4 py-10 text-white sm:px-12 sm:py-16">
           <div
             aria-hidden
             className="pointer-events-none absolute -top-24 -right-24 size-96 rounded-full bg-brand-400/25 blur-3xl"
           />
-          <div className="relative grid items-center gap-10 lg:grid-cols-[1.15fr_1fr]">
-            <div className="stagger flex flex-col gap-6">
+          <div className="relative grid grid-cols-1 items-center gap-10 lg:grid-cols-[1.15fr_1fr]">
+            <div className="stagger flex min-w-0 flex-col gap-6">
               <span className="glass inline-flex w-fit items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium">
                 <Sparkles className="size-3.5" aria-hidden />
                 Portfolio build for a fictional property company
@@ -126,7 +126,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="glass animate-fade-up flex flex-col gap-5 rounded-2xl p-6 sm:p-7 [--delay:250ms]">
+            <div className="glass animate-fade-up flex min-w-0 flex-col gap-5 rounded-2xl p-4 sm:p-7 [--delay:250ms]">
               <div className="flex flex-col gap-1.5">
                 <h2 className="text-xl font-semibold">Try the live demo</h2>
                 <p className="text-sm text-brand-100">
