@@ -1,0 +1,22 @@
+name: Keep database awake
+
+# Supabase pauses free projects after 7 days without activity. Once a day this
+# calls the live health route, which runs one small query on the database.
+# The URL is public and no secrets are needed.
+on:
+  schedule:
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  ping:
+    name: Ping the live database
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Call the health route
+        run: |
+          curl --fail --silent --show-error --retry 3 --retry-delay 20 --retry-all-errors \
+            --max-time 30 "https://property-rental-manager-nu.vercel.app/api/health"
