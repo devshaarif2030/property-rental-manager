@@ -52,7 +52,7 @@ export async function demoTenantUnpaidCharge() {
 
 /** Writes the pending payment row that starting Checkout would write. */
 export async function createPendingPayment(charge: { id: string; org_id: string; amount_cents: number }) {
-  const sessionId = `cs_test_e2e_${Date.now()}`;
+  const sessionId = `cs_test_e2e${Date.now()}`;
   const { error } = await adminClient().from("payments").insert({
     org_id: charge.org_id,
     rent_charge_id: charge.id,
